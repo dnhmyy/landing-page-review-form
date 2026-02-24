@@ -63,57 +63,66 @@ export default function MenuPage() {
                     </div>
 
                     {/* Product Grid */}
-                    <div
+                    <motion.div
+                        key={selectedCategory}
+                        initial="hidden"
+                        animate="show"
+                        variants={{
+                            hidden: { opacity: 0 },
+                            show: {
+                                opacity: 1,
+                                transition: {
+                                    staggerChildren: 0.04
+                                }
+                            }
+                        }}
                         className="grid grid-cols-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-6"
                     >
-                        <AnimatePresence mode="popLayout">
-                            {filteredProducts.map((product, i) => (
-                                <motion.div
-                                    key={product.id}
-                                    layout="position"
-                                    initial={{ opacity: 0, y: 15 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    exit={{ opacity: 0, scale: 0.98 }}
-                                    transition={{
-                                        duration: 0.4,
-                                        delay: i * 0.03,
-                                        ease: [0.22, 1, 0.36, 1]
-                                    }}
-                                    className="group bg-white rounded-[16px] md:rounded-[24px] overflow-hidden border border-primary/5 shadow-sm hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500"
-                                >
-                                    <div className="relative h-24 md:h-48 overflow-hidden">
-                                        <Image
-                                            src={product.image}
-                                            alt={product.name}
-                                            fill
-                                            className="object-cover group-hover:scale-110 transition-transform duration-700"
-                                        />
-                                        <div className="absolute top-2 right-2 md:top-4 md:right-4">
-                                            <span className="bg-white/90 backdrop-blur-md text-primary font-black text-[7px] md:text-[10px] uppercase tracking-widest px-1.5 py-0.5 md:px-3 md:py-1.5 rounded-full shadow-sm">
-                                                {product.category}
-                                            </span>
-                                        </div>
+                        {filteredProducts.map((product) => (
+                            <motion.div
+                                key={product.id}
+                                variants={{
+                                    hidden: { opacity: 0, y: 15 },
+                                    show: { opacity: 1, y: 0 }
+                                }}
+                                transition={{
+                                    duration: 0.4,
+                                    ease: [0.22, 1, 0.36, 1]
+                                }}
+                                className="group bg-white rounded-[16px] md:rounded-[24px] overflow-hidden border border-primary/5 shadow-sm hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500"
+                            >
+                                <div className="relative h-24 md:h-48 overflow-hidden">
+                                    <Image
+                                        src={product.image}
+                                        alt={product.name}
+                                        fill
+                                        className="object-cover group-hover:scale-110 transition-transform duration-700"
+                                    />
+                                    <div className="absolute top-2 right-2 md:top-4 md:right-4">
+                                        <span className="bg-white/90 backdrop-blur-md text-primary font-black text-[7px] md:text-[10px] uppercase tracking-widest px-1.5 py-0.5 md:px-3 md:py-1.5 rounded-full shadow-sm">
+                                            {product.category}
+                                        </span>
                                     </div>
-                                    <div className="p-2 md:p-5 flex flex-col h-full">
-                                        <h3 className="text-[10px] md:text-xl font-black text-foreground mb-0.5 md:mb-1 group-hover:text-primary transition-colors line-clamp-1">
-                                            {product.name}
-                                        </h3>
-                                        <p className="hidden md:block text-foreground/50 text-xs leading-relaxed mb-4 line-clamp-2 italic">
-                                            {product.desc}
-                                        </p>
-                                        <div className="flex items-center justify-between mt-auto pt-1.5 md:pt-3 border-t border-muted">
-                                            <span className="text-primary font-black text-[9px] md:text-lg">
-                                                {product.price}
-                                            </span>
-                                            <button className="hidden sm:flex items-center gap-2 text-sm font-bold text-foreground/40 group-hover:text-primary transition-colors">
-                                                Order <ChevronRight className="w-4 h-4" />
-                                            </button>
-                                        </div>
+                                </div>
+                                <div className="p-2 md:p-5 flex flex-col h-full">
+                                    <h3 className="text-[10px] md:text-xl font-black text-foreground mb-0.5 md:mb-1 group-hover:text-primary transition-colors line-clamp-1">
+                                        {product.name}
+                                    </h3>
+                                    <p className="hidden md:block text-foreground/50 text-xs leading-relaxed mb-4 line-clamp-2 italic">
+                                        {product.desc}
+                                    </p>
+                                    <div className="flex items-center justify-between mt-auto pt-1.5 md:pt-3 border-t border-muted">
+                                        <span className="text-primary font-black text-[9px] md:text-lg">
+                                            {product.price}
+                                        </span>
+                                        <button className="hidden sm:flex items-center gap-2 text-sm font-bold text-foreground/40 group-hover:text-primary transition-colors">
+                                            Order <ChevronRight className="w-4 h-4" />
+                                        </button>
                                     </div>
-                                </motion.div>
-                            ))}
-                        </AnimatePresence>
-                    </div>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </motion.div>
 
                     {/* Empty State */}
                     {filteredProducts.length === 0 && (
