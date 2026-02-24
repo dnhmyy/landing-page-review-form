@@ -11,10 +11,9 @@ import {
     AlertCircle,
     ChevronDown,
     LayoutDashboard,
-    PlusCircle,
-    Send,
+    Lock,
+    KeyRound,
     Loader2,
-    X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -29,7 +28,6 @@ interface Review {
     createdAt: string;
 }
 
-// ─── Data ───────────────────────────────────────────────────────────────────
 const branches = [
     "Roti Kebanggaan Sorrento",
     "Roti Kebanggaan Beryl",
@@ -54,39 +52,17 @@ function StarDisplay({ rating }: { rating: number }) {
     );
 }
 
-function StarInput({ value, onChange }: { value: number; onChange: (v: number) => void }) {
-    const [hover, setHover] = useState(0);
-    return (
-        <div className="flex gap-2">
-            {[1, 2, 3, 4, 5].map((i) => (
-                <button
-                    key={i}
-                    type="button"
-                    onMouseEnter={() => setHover(i)}
-                    onMouseLeave={() => setHover(0)}
-                    onClick={() => onChange(i)}
-                    className="transition-transform hover:scale-125 focus:outline-none"
-                >
-                    <Star
-                        size={32}
-                        className={cn(
-                            i <= (hover || value)
-                                ? "fill-accent text-accent"
-                                : "fill-muted text-muted-foreground/30",
-                            "transition-colors"
-                        )}
-                    />
-                </button>
-            ))}
-        </div>
-    );
-}
-
 // ─── Main Page ───────────────────────────────────────────────────────────────
 export default function AdminReviewsPage() {
     const [reviews, setReviews] = useState<Review[]>([]);
     const [loading, setLoading] = useState(true);
-    const [showForm, setShowForm] = useState(false);
+    const [isAuthorized, setIsAuthorized] = useState(false);
+    const [checkingAuth, setCheckingAuth] = useState(true);
+
+    // Login state
+    const [passcode, setPasscode] = useState("");
+    const [loginLoading, setLoginLoading] = useState(false);
+    const [loginError, setLoginError] = useState("");
 
     // Filters
     const [branchFilter, setBranchFilter] = useState("all");
@@ -94,12 +70,26 @@ export default function AdminReviewsPage() {
     const [searchQuery, setSearchQuery] = useState("");
     const [sort, setSort] = useState("newest");
 
-    // Form state
-    const [form, setForm] = useState({ name: "", rating: 0, comment: "", branch: branches[0] });
-    const [submitting, setSubmitting] = useState(false);
-    const [submitMsg, setSubmitMsg] = useState<{ type: "success" | "error"; text: string } | null>(null);
+    const checkAuthStatus = async () => {
+        try {
+            const res = await fetch("/api/admin/login");
+            const data = await res.json();
+            if (data.authenticated) {
+                setIsAuthorized(true);
+            }
+        } catch (e) {
+            console.error("Auth check failed", e);
+        } finally {
+            setCheckingAuth(false);
+        }
+    };
+
+    useEffect(() => {
+        checkAuthStatus();
+    }, []);
 
     const fetchReviews = useCallback(async () => {
+        if (!isAuthorized) return;
         setLoading(true);
         try {
             const params = new URLSearchParams({
@@ -112,66 +102,98 @@ export default function AdminReviewsPage() {
             const data = await res.json();
             setReviews(Array.isArray(data) ? data : []);
         } catch {
-            // silently fail — error logged in API
+            // silently fail
         } finally {
             setLoading(false);
         }
-    }, [branchFilter, ratingFilter, sort, searchQuery]);
+    }, [branchFilter, ratingFilter, sort, searchQuery, isAuthorized]);
 
     useEffect(() => {
-        fetchReviews();
-    }, [branchFilter, ratingFilter, sort]);
+        if (isAuthorized) {
+            fetchReviews();
+        }
+    }, [branchFilter, ratingFilter, sort, isAuthorized, fetchReviews]);
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
         fetchReviews();
     };
 
-    const handleSubmitReview = async (e: React.FormEvent) => {
+    const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-        setSubmitMsg(null);
+        setLoginLoading(true);
+        setLoginError("");
 
-        if (!form.name.trim() || form.name.trim().length < 2) {
-            setSubmitMsg({ type: "error", text: "Nama minimal 2 karakter." });
-            return;
-        }
-        if (form.rating === 0) {
-            setSubmitMsg({ type: "error", text: "Pilih rating terlebih dahulu." });
-            return;
-        }
-        if (form.comment.trim().length < 10) {
-            setSubmitMsg({ type: "error", text: "Komentar minimal 10 karakter." });
-            return;
-        }
-
-        setSubmitting(true);
         try {
-            const res = await fetch("/api/admin/reviews", {
+            const res = await fetch("/api/admin/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    name: form.name.trim(),
-                    rating: form.rating,
-                    comment: form.comment.trim(),
-                    branch: form.branch,
-                }),
+                body: JSON.stringify({ passcode }),
             });
 
-            if (!res.ok) throw new Error("Failed");
-
-            setSubmitMsg({ type: "success", text: "Review berhasil ditambahkan! ✓" });
-            setForm({ name: "", rating: 0, comment: "", branch: branches[0] });
-            setTimeout(() => {
-                setShowForm(false);
-                setSubmitMsg(null);
-                fetchReviews();
-            }, 1500);
+            if (res.ok) {
+                setIsAuthorized(true);
+            } else {
+                setLoginError("Passcode salah. Silakan coba lagi.");
+            }
         } catch {
-            setSubmitMsg({ type: "error", text: "Gagal menyimpan review. Silakan coba lagi." });
+            setLoginError("Terjadi kesalahan sistem.");
         } finally {
-            setSubmitting(false);
+            setLoginLoading(false);
         }
     };
+
+    if (checkingAuth) {
+        return (
+            <div className="min-h-screen bg-background flex items-center justify-center">
+                <Loader2 className="w-8 h-8 animate-spin text-primary opacity-20" />
+            </div>
+        );
+    }
+
+    if (!isAuthorized) {
+        return (
+            <div className="min-h-screen bg-background flex items-center justify-center p-6">
+                <div className="w-full max-w-md bg-white rounded-[32px] p-10 shadow-2xl border border-primary/5 text-center">
+                    <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                        <Lock className="w-8 h-8 text-primary" />
+                    </div>
+                    <h1 className="text-2xl font-black text-foreground mb-2">Admin Access</h1>
+                    <p className="text-foreground/45 text-sm font-medium mb-8">
+                        Masukkan passcode internal untuk mengakses Dashboard Review.
+                    </p>
+
+                    <form onSubmit={handleLogin} className="space-y-4">
+                        <div className="relative">
+                            <KeyRound className="absolute left-4 top-1/2 -translate-y-1/2 text-foreground/30 w-5 h-5" />
+                            <input
+                                type="password"
+                                placeholder="Admin Passcode..."
+                                value={passcode}
+                                onChange={(e) => setPasscode(e.target.value)}
+                                className="w-full pl-12 pr-4 py-4 rounded-2xl bg-muted border border-transparent focus:border-primary focus:bg-white outline-none transition-all font-bold tracking-widest text-lg"
+                                required
+                            />
+                        </div>
+
+                        {loginError && (
+                            <p className="text-red-500 text-sm font-bold bg-red-50 py-2 rounded-lg border border-red-100">
+                                {loginError}
+                            </p>
+                        )}
+
+                        <button
+                            type="submit"
+                            disabled={loginLoading}
+                            className="w-full py-4 rounded-2xl bg-primary text-white font-black text-sm uppercase tracking-widest shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50"
+                        >
+                            {loginLoading ? "Memverifikasi..." : "Buka Dashboard"}
+                        </button>
+                    </form>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen bg-background text-foreground p-8">
@@ -188,107 +210,11 @@ export default function AdminReviewsPage() {
                             Internal — Roti Kebanggaan Admin
                         </p>
                     </div>
-                    <button
-                        onClick={() => { setShowForm(true); setSubmitMsg(null); }}
-                        className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary text-white font-bold text-sm shadow-lg shadow-primary/15 hover:bg-primary/90 hover:scale-[1.02] transition-all"
-                    >
-                        <PlusCircle className="w-4 h-4" />
-                        Tambah Review
-                    </button>
-                </div>
-
-                {/* ── Add Review Modal ── */}
-                {showForm && (
-                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
-                        <div className="bg-white rounded-[28px] p-8 w-full max-w-lg shadow-2xl border border-primary/10">
-                            <div className="flex items-center justify-between mb-6">
-                                <h2 className="text-xl font-black text-foreground">Tambah Review Internal</h2>
-                                <button
-                                    onClick={() => { setShowForm(false); setSubmitMsg(null); }}
-                                    className="p-2 rounded-xl hover:bg-muted transition-colors"
-                                >
-                                    <X className="w-5 h-5 text-foreground/50" />
-                                </button>
-                            </div>
-
-                            <form onSubmit={handleSubmitReview} className="space-y-5">
-                                <div>
-                                    <label className="block text-sm font-bold text-foreground/70 mb-1.5">Nama Pelanggan</label>
-                                    <input
-                                        type="text"
-                                        value={form.name}
-                                        onChange={(e) => setForm(f => ({ ...f, name: e.target.value }))}
-                                        placeholder="Nama pelanggan..."
-                                        maxLength={80}
-                                        className="w-full px-4 py-3 rounded-xl bg-background border border-primary/10 focus:border-primary focus:ring-2 focus:ring-primary/10 outline-none transition-all text-foreground placeholder:text-foreground/30 font-medium"
-                                    />
-                                </div>
-
-                                <div>
-                                    <label className="block text-sm font-bold text-foreground/70 mb-2">Cabang</label>
-                                    <div className="relative">
-                                        <MapPin className="absolute left-3.5 top-1/2 -translate-y-1/2 text-foreground/30 w-4 h-4" />
-                                        <select
-                                            value={form.branch}
-                                            onChange={(e) => setForm(f => ({ ...f, branch: e.target.value }))}
-                                            className="w-full pl-10 pr-8 py-3 rounded-xl bg-background border border-primary/10 focus:border-primary appearance-none outline-none font-medium text-foreground"
-                                        >
-                                            {branches.map(b => <option key={b} value={b}>{b}</option>)}
-                                        </select>
-                                        <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-foreground/30 w-4 h-4 pointer-events-none" />
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <label className="block text-sm font-bold text-foreground/70 mb-2">Rating</label>
-                                    <StarInput value={form.rating} onChange={(v) => setForm(f => ({ ...f, rating: v }))} />
-                                </div>
-
-                                <div>
-                                    <label className="block text-sm font-bold text-foreground/70 mb-1.5">Komentar</label>
-                                    <textarea
-                                        value={form.comment}
-                                        onChange={(e) => setForm(f => ({ ...f, comment: e.target.value }))}
-                                        placeholder="Isi komentar pelanggan..."
-                                        rows={4}
-                                        maxLength={600}
-                                        className="w-full px-4 py-3 rounded-xl bg-background border border-primary/10 focus:border-primary focus:ring-2 focus:ring-primary/10 outline-none transition-all text-foreground placeholder:text-foreground/30 font-medium resize-none"
-                                    />
-                                    <div className="text-right text-xs text-foreground/30 mt-1">{form.comment.length}/600</div>
-                                </div>
-
-                                {submitMsg && (
-                                    <div className={cn(
-                                        "text-sm font-semibold px-4 py-3 rounded-xl",
-                                        submitMsg.type === "success"
-                                            ? "bg-green-50 text-green-700 border border-green-100"
-                                            : "bg-red-50 text-red-700 border border-red-100"
-                                    )}>
-                                        {submitMsg.text}
-                                    </div>
-                                )}
-
-                                <div className="flex gap-3 pt-2">
-                                    <button
-                                        type="button"
-                                        onClick={() => { setShowForm(false); setSubmitMsg(null); }}
-                                        className="flex-1 py-3 rounded-xl border-2 border-primary/10 text-foreground/60 font-bold text-sm hover:border-primary/30 transition-all"
-                                    >
-                                        Batal
-                                    </button>
-                                    <button
-                                        type="submit"
-                                        disabled={submitting}
-                                        className="flex-1 inline-flex items-center justify-center gap-2 py-3 rounded-xl bg-primary text-white font-bold text-sm shadow-md shadow-primary/15 hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-                                    >
-                                        {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
-                                        {submitting ? "Menyimpan..." : "Simpan Review"}
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
+                    <div className="flex items-center gap-2 px-4 py-2 bg-green-50 border border-green-100 text-green-700 rounded-full text-xs font-black uppercase tracking-widest">
+                        <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                        Authorized Session
                     </div>
-                )}
+                </div>
 
                 {/* ── Filters ── */}
                 <div className="glass rounded-2xl p-6 mb-8 border border-primary/5">
@@ -374,7 +300,7 @@ export default function AdminReviewsPage() {
                     <div className="glass rounded-3xl py-32 text-center border border-primary/5">
                         <AlertCircle className="w-16 h-16 text-primary/10 mx-auto mb-4" />
                         <h3 className="text-xl font-black text-foreground/50">Tidak ada review</h3>
-                        <p className="text-foreground/30 mt-2 text-sm">Coba ubah filter atau tambahkan review baru.</p>
+                        <p className="text-foreground/30 mt-2 text-sm">Coba ubah filter.</p>
                     </div>
                 ) : (
                     <div className="space-y-5">

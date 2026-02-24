@@ -1,17 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { z } from "zod";
 import prisma from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
-
-const reviewSchema = z.object({
-    name: z.string().min(2).max(80),
-    rating: z.number().int().min(1).max(5),
-    comment: z.string().min(10).max(600),
-    branch: z.string().optional(),
-    photoUrl: z.string().optional(),
-});
 
 /**
  * GET /api/admin/reviews
@@ -20,6 +11,12 @@ const reviewSchema = z.object({
 export async function GET(req: NextRequest) {
     if (process.env.NEXT_PHASE === "phase-production-build") {
         return NextResponse.json([]);
+    }
+
+    // Auth check
+    const session = req.cookies.get("rk_admin_session");
+    if (session?.value !== "authorized") {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     try {
@@ -55,43 +52,5 @@ export async function GET(req: NextRequest) {
     } catch (error) {
         console.error("[ADMIN_REVIEWS_GET]", error);
         return NextResponse.json({ error: "Failed to fetch reviews" }, { status: 500 });
-    }
-}
-
-/**
- * POST /api/admin/reviews
- * Add a new review from the internal dashboard.
- */
-export async function POST(req: NextRequest) {
-    if (process.env.NEXT_PHASE === "phase-production-build") {
-        return NextResponse.json({ message: "Build phase skip" });
-    }
-
-    try {
-        const body = await req.json();
-        const validated = reviewSchema.safeParse(body);
-
-        if (!validated.success) {
-            return NextResponse.json(
-                { error: "Validation failed", issues: validated.error.issues },
-                { status: 400 }
-            );
-        }
-
-        const review = await prisma.review.create({
-            data: {
-                name: validated.data.name,
-                rating: validated.data.rating,
-                comment: validated.data.comment,
-                branch: validated.data.branch,
-                photoUrl: validated.data.photoUrl,
-                isApproved: true,
-            },
-        });
-
-        return NextResponse.json(review, { status: 201 });
-    } catch (error) {
-        console.error("[ADMIN_REVIEWS_POST]", error);
-        return NextResponse.json({ error: "Failed to save review" }, { status: 500 });
     }
 }
