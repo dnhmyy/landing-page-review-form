@@ -5,62 +5,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 
-const products = [
-    {
-        id: 1,
-        name: "Sourdough Classic",
-        desc: "Fermented for 36 hours, crispy crust, tangy crumb. Our bestseller.",
-        tag: "Bestseller",
-        price: "Rp 85.000",
-        image:
-            "https://images.unsplash.com/photo-1585478259715-876acc5be8eb?auto=format&fit=crop&q=80&w=800",
-    },
-    {
-        id: 2,
-        name: "Croissant au Beurre",
-        desc: "Laminated with premium French butter. Flaky, golden, extraordinary.",
-        tag: "Premium",
-        price: "Rp 45.000",
-        image:
-            "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&q=80&w=800",
-    },
-    {
-        id: 3,
-        name: "Whole Wheat Batard",
-        desc: "Packed with nutrients, perfect mild nutty flavor for everyday.",
-        tag: "Healthy",
-        price: "Rp 70.000",
-        image:
-            "https://images.unsplash.com/photo-1586444248902-2f64eddc13df?auto=format&fit=crop&q=80&w=800",
-    },
-    {
-        id: 4,
-        name: "Pain au Chocolat",
-        desc: "Dark 70% cacao wrapped in our signature laminated dough.",
-        tag: "Signature",
-        price: "Rp 55.000",
-        image:
-            "https://images.unsplash.com/photo-1612977234362-85dddf1e8c8a?auto=format&fit=crop&q=80&w=800",
-    },
-    {
-        id: 5,
-        name: "Focaccia Rosemary",
-        desc: "Olive oil-drizzled, herb-laden. Perfect with olive tapenade.",
-        tag: "Daily",
-        price: "Rp 60.000",
-        image:
-            "https://images.unsplash.com/photo-1586444248711-c27c4ec9dab0?auto=format&fit=crop&q=80&w=800",
-    },
-    {
-        id: 6,
-        name: "Cinnamon Roll",
-        desc: "Pillowy soft, cream cheese frosted. Morning indulgence perfected.",
-        tag: "Fan Favorite",
-        price: "Rp 50.000",
-        image:
-            "https://images.unsplash.com/photo-1576618148400-f54bed99fcfd?auto=format&fit=crop&q=80&w=800",
-    },
-];
+import { products } from "@/lib/products";
+
+const featuredProducts = products.slice(0, 6);
 
 const tagColors: Record<string, string> = {
     Bestseller: "bg-accent/10 text-accent",
@@ -128,7 +75,7 @@ export function FeaturedProducts() {
 
                 {/* Grid */}
                 <div className="grid grid-cols-3 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-8">
-                    {products.map((product, i) => (
+                    {featuredProducts.map((product, i) => (
                         <motion.div
                             key={product.id}
                             initial={{ opacity: 0, y: 30 }}
