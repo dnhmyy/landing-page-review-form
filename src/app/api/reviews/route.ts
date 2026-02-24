@@ -9,6 +9,8 @@ const reviewSchema = z.object({
     name: z.string().min(2, "Name must be at least 2 characters").max(80),
     rating: z.number().int().min(1).max(5),
     comment: z.string().min(10, "Comment must be at least 10 characters").max(600),
+    branch: z.string().optional(),
+    photoUrl: z.string().optional(),
 });
 
 // In-memory rate limiting: 3 reviews per IP per hour
@@ -91,13 +93,18 @@ export async function POST(req: NextRequest) {
                 name: validated.data.name,
                 rating: validated.data.rating,
                 comment: validated.data.comment,
+                branch: validated.data.branch,
+                photoUrl: validated.data.photoUrl,
                 isApproved: true,
             },
         });
 
         return NextResponse.json(review, { status: 201 });
-    } catch (error) {
+    } catch (error: any) {
         console.error("[REVIEWS_POST]", error);
-        return NextResponse.json({ error: "Failed to submit review" }, { status: 500 });
+        return NextResponse.json({
+            error: "Failed to submit review",
+            details: error.message
+        }, { status: 500 });
     }
 }

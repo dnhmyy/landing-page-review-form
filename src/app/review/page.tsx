@@ -111,7 +111,7 @@ export default function ReviewSubmitPage() {
             }
 
             // 2. Submit review
-            const res = await fetch("/api/admin/reviews", {
+            const res = await fetch("/api/reviews", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -124,14 +124,15 @@ export default function ReviewSubmitPage() {
             });
 
             if (!res.ok) {
-                const err = await res.json();
-                setError(err.error || "Gagal mengirim review.");
+                const err = await res.json().catch(() => ({}));
+                setError(err.error || `Gagal mengirim review (Status: ${res.status})`);
                 return;
             }
 
             setDone(true);
-        } catch {
-            setError("Terjadi kesalahan. Silakan coba lagi.");
+        } catch (err: any) {
+            console.error("Submission error:", err);
+            setError(`Terjadi kesalahan: ${err.message || "Silakan coba lagi"}`);
         } finally {
             setSubmitting(false);
         }
