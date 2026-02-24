@@ -24,10 +24,10 @@ yarn-error.log*
 # environment files
 .env
 .env.*
+.env.production
+.env.development
+.env.test
 .env.local
-.env.development.local
-.env.test.local
-.env.production.local
 
 # data
 /public/uploads/
