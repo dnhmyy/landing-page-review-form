@@ -26,7 +26,15 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
-.env*.local
+.env
+.env.*
+!.env.example
+!.env.production.example
+
+# data
+/public/uploads/
+*.db
+*.sqlite
 
 # vercel
 .vercel
