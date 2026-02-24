@@ -63,21 +63,20 @@ export default function MenuPage() {
                     </div>
 
                     {/* Product Grid */}
-                    <motion.div
-                        layout
+                    <div
                         className="grid grid-cols-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-6"
                     >
                         <AnimatePresence mode="popLayout">
                             {filteredProducts.map((product, i) => (
                                 <motion.div
                                     key={product.id}
-                                    layout
-                                    initial={{ opacity: 0, y: 20 }}
+                                    layout="position"
+                                    initial={{ opacity: 0, y: 15 }}
                                     animate={{ opacity: 1, y: 0 }}
-                                    exit={{ opacity: 0, scale: 0.95 }}
+                                    exit={{ opacity: 0, scale: 0.98 }}
                                     transition={{
-                                        duration: 0.5,
-                                        delay: i * 0.05,
+                                        duration: 0.4,
+                                        delay: i * 0.03,
                                         ease: [0.22, 1, 0.36, 1]
                                     }}
                                     className="group bg-white rounded-[16px] md:rounded-[24px] overflow-hidden border border-primary/5 shadow-sm hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500"
@@ -114,7 +113,7 @@ export default function MenuPage() {
                                 </motion.div>
                             ))}
                         </AnimatePresence>
-                    </motion.div>
+                    </div>
 
                     {/* Empty State */}
                     {filteredProducts.length === 0 && (
