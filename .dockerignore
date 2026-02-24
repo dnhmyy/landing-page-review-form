@@ -1,0 +1,33 @@
+# Check node_modules
+node_modules
+.next
+out
+build
+
+# Prisma
+prisma/dev.db
+prisma/dev.db-journal
+
+# Environment variables
+.env
+.env.local
+.env.production
+.env.development
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Git
+.git
+.gitignore
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

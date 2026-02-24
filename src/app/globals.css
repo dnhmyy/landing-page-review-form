@@ -2,26 +2,97 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* Warm cream base — far from dark */
+    --background: 38 30% 97%;
+    --foreground: 161 60% 8%;
+
+    /* Cards slightly brighter than background */
+    --card: 0 0% 100%;
+    --card-foreground: 161 60% 8%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 161 60% 8%;
+
+    /* Deep brand green — used sparingly */
+    --primary: 161 100% 7.6%;
+    --primary-foreground: 38 30% 97%;
+
+    /* Slightly lighter green for secondary state */
+    --secondary: 154 100% 9.8%;
+    --secondary-foreground: 38 30% 97%;
+
+    /* Soft warm gray for muted elements */
+    --muted: 38 15% 93%;
+    --muted-foreground: 161 15% 38%;
+
+    /* Warm gold accent — for stars, highlights */
+    --accent: 43 80% 48%;
+    --accent-foreground: 161 100% 5%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 161 15% 88%;
+    --input: 161 15% 88%;
+    --ring: 161 100% 7.6%;
+    --radius: 0.875rem;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  ::selection {
+    @apply bg-primary/10 text-primary;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply tracking-tight;
+  }
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
+
+  /* Light glassmorphism for cream/light backgrounds */
+  .glass {
+    @apply bg-white/75 backdrop-blur-lg border border-white/60 shadow-sm;
+  }
+
+  /* Subtle green-tinted card for section variation */
+  .glass-green {
+    @apply bg-primary/5 backdrop-blur-sm border border-primary/10 shadow-sm;
+  }
+
+  /* Section helper */
+  .section-pad {
+    @apply py-24 px-6;
+  }
+
+  /* Premium button overrides */
+  .btn-primary {
+    @apply bg-primary text-white hover:bg-primary/90 shadow-lg shadow-primary/15 transition-all hover:scale-[1.02] active:scale-[0.98];
+  }
+
+  .btn-outline {
+    @apply border-2 border-primary text-primary hover:bg-primary/5 transition-all;
+  }
+
+  /* Gradient text utility */
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent;
   }
 }
