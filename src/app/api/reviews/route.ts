@@ -47,6 +47,8 @@ export async function GET(req: NextRequest) {
                 name: true,
                 rating: true,
                 comment: true,
+                branch: true,
+                photoUrl: true,
                 createdAt: true,
             },
         });
