@@ -113,8 +113,8 @@ export function Hero() {
                             fill
                             className="object-cover scale-105 group-hover:scale-100 transition-transform duration-1000"
                             priority
-                            sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 640px"
-                            decoding="async"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 800px"
+                            quality={100}
                         />
                     </div>
 

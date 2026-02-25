@@ -230,7 +230,7 @@ export default function ReviewSubmitPage() {
 
                             {photoPreview ? (
                                 <div className="relative w-full h-48 rounded-2xl overflow-hidden border border-primary/10">
-                                    <Image src={photoPreview} alt="Preview" fill className="object-cover" />
+                                    <Image src={photoPreview} alt="Preview" fill className="object-cover" quality={90} sizes="(max-width: 768px) 100vw, 500px" />
                                     <button
                                         type="button"
                                         onClick={removePhoto}

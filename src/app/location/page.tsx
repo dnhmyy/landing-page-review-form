@@ -119,6 +119,8 @@ export default function LocationPage() {
                                             alt={branch.name}
                                             fill
                                             className="object-contain group-hover:scale-110 transition-transform duration-700"
+                                            quality={90}
+                                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 300px"
                                         />
                                     </div>
                                     <div className="absolute top-2 right-2 md:top-4 md:right-4">

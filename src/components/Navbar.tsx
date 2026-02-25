@@ -48,8 +48,9 @@ export function Navbar() {
                             alt="Logo Roti Kebanggaan"
                             fill
                             className="object-contain"
-                            sizes="48px"
-                            decoding="async"
+                            sizes="128px"
+                            quality={100}
+                            priority
                         />
                     </div>
                     <span className="font-black text-xl text-primary tracking-tight">

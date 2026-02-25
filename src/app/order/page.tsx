@@ -158,7 +158,7 @@ function OrderForm() {
                                         {isSelected && <Check className="w-3 h-3 text-white" />}
                                     </div>
                                     <div className="relative w-12 h-12 rounded overflow-hidden shrink-0">
-                                        <Image src={product.image} alt={product.name} fill className="object-cover" />
+                                        <Image src={product.image} alt={product.name} fill className="object-cover" quality={90} sizes="80px" />
                                     </div>
                                     <div className="flex-1">
                                         <div className="font-bold text-foreground line-clamp-1">{product.name}</div>

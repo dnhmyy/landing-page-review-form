@@ -30,8 +30,8 @@ export function About() {
                                 fill
                                 className="object-cover"
                                 loading="lazy"
-                                decoding="async"
-                                sizes="(max-width: 768px) 100vw, 50vw"
+                                sizes="(max-width: 768px) 100vw, 800px"
+                                quality={90}
                             />
                         </div>
                         {/* Accent card */}

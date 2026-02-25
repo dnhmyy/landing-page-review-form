@@ -95,8 +95,8 @@ export function FeaturedProducts() {
                                     fill
                                     className="object-cover group-hover:scale-105 transition-transform duration-700"
                                     loading="lazy"
-                                    decoding="async"
-                                    sizes="(max-width: 768px) 50vw, 33vw"
+                                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                                    quality={90}
                                 />
                                 <div className="absolute top-2 right-2 md:top-6 md:right-6">
                                     <span className="bg-white/90 backdrop-blur-md text-primary font-black text-[7px] md:text-[10px] uppercase tracking-widest px-1.5 py-0.5 md:px-4 md:py-2 rounded-full shadow-sm">
