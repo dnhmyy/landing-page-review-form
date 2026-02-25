@@ -67,9 +67,6 @@ export async function GET(req: NextRequest) {
         console.error("[REVIEWS_GET]", error);
         return NextResponse.json({
             error: "Failed to load reviews",
-            message: error.message,
-            code: error.code,
-            meta: error.meta
         }, { status: 500 });
     }
 }
@@ -111,9 +108,6 @@ export async function POST(req: NextRequest) {
         console.error("[REVIEWS_POST]", error);
         return NextResponse.json({
             error: "Failed to submit review",
-            message: error.message,
-            code: error.code,
-            meta: error.meta
         }, { status: 500 });
     }
 }
