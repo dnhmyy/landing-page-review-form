@@ -61,9 +61,14 @@ export async function GET(req: NextRequest) {
             totalReviews: reviews.length,
             averageRating: parseFloat(averageRating.toFixed(1)),
         });
-    } catch (error) {
+    } catch (error: any) {
         console.error("[REVIEWS_GET]", error);
-        return NextResponse.json({ error: "Failed to load reviews" }, { status: 500 });
+        return NextResponse.json({
+            error: "Failed to load reviews",
+            message: error.message,
+            code: error.code,
+            meta: error.meta
+        }, { status: 500 });
     }
 }
 
@@ -104,7 +109,9 @@ export async function POST(req: NextRequest) {
         console.error("[REVIEWS_POST]", error);
         return NextResponse.json({
             error: "Failed to submit review",
-            details: error.message
+            message: error.message,
+            code: error.code,
+            meta: error.meta
         }, { status: 500 });
     }
 }
