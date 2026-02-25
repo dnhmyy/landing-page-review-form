@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { Leaf, MapPin, Clock } from "lucide-react";
+import { MapPin, Clock } from "lucide-react";
+import Image from "next/image";
 
 const branches = [
     { name: "Roti Kebanggaan Sorrento", phone: "628112345678" },
@@ -20,8 +21,13 @@ export function Footer() {
                     {/* Brand */}
                     <div>
                         <div className="flex items-center gap-2.5 mb-6">
-                            <div className="w-9 h-9 rounded-xl bg-white/15 flex items-center justify-center">
-                                <Leaf className="w-5 h-5 text-white" />
+                            <div className="w-12 h-12 relative">
+                                <Image
+                                    src="/images/logo.png"
+                                    alt="Logo Roti Kebanggaan"
+                                    fill
+                                    className="object-contain"
+                                />
                             </div>
                             <span className="font-black text-xl tracking-tight">
                                 Roti Kebanggaan

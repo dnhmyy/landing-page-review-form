@@ -23,9 +23,9 @@ export function About() {
                         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
                         className="relative"
                     >
-                        <div className="aspect-[3/4] rounded-[40px] overflow-hidden shadow-xl shadow-primary/10 border-8 border-white ring-1 ring-primary/10">
+                        <div className="aspect-[3/4] rounded-[80px] overflow-hidden shadow-2xl shadow-primary/10 border-[10px] border-white ring-1 ring-primary/10">
                             <Image
-                                src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&q=80&w=900"
+                                src="/images/gambar2.png"
                                 alt="Roti Kebanggaan bakery kitchen"
                                 fill
                                 className="object-cover"

@@ -162,9 +162,6 @@ export default function ReviewSubmitPage() {
             <div className="max-w-lg mx-auto">
                 {/* Header */}
                 <div className="text-center mb-10">
-                    <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-primary mb-5">
-                        <span className="text-white font-black text-2xl">R</span>
-                    </div>
                     <h1 className="text-3xl font-black text-foreground tracking-tight">Bagikan Pengalaman Anda</h1>
                     <p className="text-foreground/50 mt-2 text-sm leading-relaxed">
                         Komentar Anda sangat berarti bagi kami.<br />

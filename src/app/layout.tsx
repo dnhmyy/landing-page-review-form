@@ -6,10 +6,10 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
 
 export const metadata: Metadata = {
-  title: "Roti Kebanggaan | Bakery Artisan Premium & Sourdough",
+  title: "Roti Kebanggaan Gading Serpong - Toko roti terbaik di Tangerang | Fresh Setiap Hari",
   description: "Rasakan keaslian seni memanggang roti artisan. Sourdough buatan tangan, pastri segar, dan teknik tradisional. Pesan sekarang untuk kesegaran harian.",
   openGraph: {
-    title: "Roti Kebanggaan | Toko Roti Artisan Premium",
+    title: "Roti Kebanggaan Gading Serpong - Toko roti terbaik di Tangerang | Fresh Setiap Hari",
     description: "Momen berharga di setiap gigitan roti buatan tangan kami.",
     type: "website",
     url: "https://rotikebanggaan.com",
@@ -31,6 +31,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth">
+      <head>
+        <link rel="icon" href="/images/logo.png" type="image/png" />
+      </head>
       <body
         className={`${inter.variable} ${outfit.variable} antialiased selection:bg-accent selection:text-white font-inter`}
       >

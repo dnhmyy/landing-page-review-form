@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ChevronRight, Filter } from "lucide-react";
+import Link from "next/link";
 
 import { products, categories } from "@/lib/products";
 
@@ -21,8 +22,16 @@ export default function MenuPage() {
             <Navbar />
 
             {/* Header */}
-            <section className="pt-24 pb-12 px-6 bg-primary text-primary-foreground">
-                <div className="max-w-7xl mx-auto">
+            <section className="pt-24 pb-16 px-6 bg-primary text-primary-foreground relative overflow-hidden">
+                {/* Subtle decorative pattern */}
+                <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: "radial-gradient(circle, currentColor 1px, transparent 1px)", backgroundSize: "24px 24px" }} />
+                <div className="max-w-7xl mx-auto relative">
+                    {/* Breadcrumb */}
+                    <div className="flex items-center gap-2 text-white/40 text-xs font-semibold mb-6 tracking-wide uppercase">
+                        <Link href="/" className="hover:text-white/70 transition-colors">Home</Link>
+                        <span>/</span>
+                        <span className="text-white/70">Menu</span>
+                    </div>
                     <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
                         <div>
                             <h1 className="text-4xl font-black tracking-tight mb-3">
@@ -31,10 +40,8 @@ export default function MenuPage() {
                             <p className="text-white/60 text-lg max-w-2xl leading-relaxed">
                                 Jelajahi koleksi artisan bakery kami. Setiap produk dibuat dengan penuh kebanggaan, dedikasi, dan bahan premium terbaik.
                             </p>
-                        </div>
-                        <div className="flex items-center gap-4 py-2 px-4 bg-white/10 rounded-2xl w-fit">
-                            <Filter className="w-5 h-5" />
-                            <span className="font-bold text-sm tracking-widest uppercase">Katalog Lengkap</span>
+                            {/* Accent line */}
+                            <div className="mt-6 w-16 h-1 rounded-full bg-accent/60" />
                         </div>
                     </div>
                 </div>
@@ -76,7 +83,7 @@ export default function MenuPage() {
                                 }
                             }
                         }}
-                        className="grid grid-cols-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-6"
+                        className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-6"
                     >
                         {filteredProducts.map((product) => (
                             <motion.div
@@ -89,9 +96,9 @@ export default function MenuPage() {
                                     duration: 0.4,
                                     ease: [0.22, 1, 0.36, 1]
                                 }}
-                                className="group bg-white rounded-[16px] md:rounded-[24px] overflow-hidden border border-primary/5 shadow-sm hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500"
+                                className="group flex flex-col h-full bg-white rounded-[16px] md:rounded-[24px] overflow-hidden border border-primary/5 shadow-sm hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500"
                             >
-                                <div className="relative h-24 md:h-48 overflow-hidden">
+                                <div className="relative shrink-0 aspect-[4/3] w-full overflow-hidden">
                                     <Image
                                         src={product.image}
                                         alt={product.name}
@@ -100,24 +107,26 @@ export default function MenuPage() {
                                     />
                                     <div className="absolute top-2 right-2 md:top-4 md:right-4">
                                         <span className="bg-white/90 backdrop-blur-md text-primary font-black text-[7px] md:text-[10px] uppercase tracking-widest px-1.5 py-0.5 md:px-3 md:py-1.5 rounded-full shadow-sm">
-                                            {product.category}
+                                            {product.tag}
                                         </span>
                                     </div>
                                 </div>
-                                <div className="p-2 md:p-5 flex flex-col h-full">
-                                    <h3 className="text-[10px] md:text-xl font-black text-foreground mb-0.5 md:mb-1 group-hover:text-primary transition-colors line-clamp-1">
+                                <div className="p-3 md:p-5 flex flex-col flex-1">
+                                    <h3 className="text-sm md:text-xl font-black text-foreground mb-1 group-hover:text-primary transition-colors line-clamp-2 md:line-clamp-1">
                                         {product.name}
                                     </h3>
-                                    <p className="hidden md:block text-foreground/50 text-xs leading-relaxed mb-4 line-clamp-2 italic">
+                                    <p className="hidden md:block text-foreground/50 text-xs leading-relaxed mb-2 line-clamp-2 italic flex-1">
                                         {product.desc}
                                     </p>
-                                    <div className="flex items-center justify-between mt-auto pt-1.5 md:pt-3 border-t border-muted">
-                                        <span className="text-primary font-black text-[9px] md:text-lg">
-                                            {product.price}
-                                        </span>
-                                        <button className="hidden sm:flex items-center gap-2 text-sm font-bold text-foreground/40 group-hover:text-primary transition-colors">
-                                            Order <ChevronRight className="w-4 h-4" />
-                                        </button>
+                                    <div className="mt-auto pt-2 md:pt-3 border-t border-muted/30">
+                                        <div className="flex items-center justify-between">
+                                            <span className="text-primary font-black text-sm md:text-lg">
+                                                {product.price}
+                                            </span>
+                                            <Link href={`/order?item=${product.id}`} className="flex items-center gap-1 md:gap-2 text-[10px] md:text-sm font-bold text-foreground/40 group-hover:text-primary transition-colors">
+                                                Order <ChevronRight className="w-3 h-3 md:w-4 md:h-4" />
+                                            </Link>
+                                        </div>
                                     </div>
                                 </div>
                             </motion.div>

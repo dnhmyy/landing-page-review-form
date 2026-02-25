@@ -6,9 +6,9 @@ import Image from "next/image";
 import Link from "next/link";
 
 const stats = [
-    { value: "7", label: "Cabang" },
-    { value: "2,500+", label: "Happy Customers" },
-    { value: "15+", label: "Years Baking" },
+    { value: "6", label: "Cabang" },
+    { value: "1750+", label: "Happy Customers" },
+    { value: "8+", label: "Years Baking" },
     { value: "4.9★", label: "Avg. Rating" },
 ];
 
@@ -108,7 +108,7 @@ export function Hero() {
                     <div className="relative aspect-[4/5] rounded-[44px] overflow-hidden shadow-2xl shadow-primary/10 border-[10px] border-white ring-1 ring-primary/10 group">
                         <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent z-10 transition-opacity duration-500 group-hover:opacity-50" />
                         <Image
-                            src="https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&q=80&w=1200"
+                            src="/images/gambar1.png"
                             alt="Roti Kebanggaan — freshly baked artisan bread"
                             fill
                             className="object-cover scale-105 group-hover:scale-100 transition-transform duration-1000"
