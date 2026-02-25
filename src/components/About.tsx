@@ -29,6 +29,9 @@ export function About() {
                                 alt="Roti Kebanggaan bakery kitchen"
                                 fill
                                 className="object-cover"
+                                loading="lazy"
+                                decoding="async"
+                                sizes="(max-width: 768px) 100vw, 50vw"
                             />
                         </div>
                         {/* Accent card */}

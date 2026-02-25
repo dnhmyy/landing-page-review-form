@@ -104,6 +104,9 @@ export default function MenuPage() {
                                         alt={product.name}
                                         fill
                                         className="object-cover group-hover:scale-110 transition-transform duration-700"
+                                        loading="lazy"
+                                        decoding="async"
+                                        sizes="(max-width: 768px) 50vw, (max-width: 1280px) 33vw, 25vw"
                                     />
                                     <div className="absolute top-2 right-2 md:top-4 md:right-4">
                                         <span className="bg-white/90 backdrop-blur-md text-primary font-black text-[7px] md:text-[10px] uppercase tracking-widest px-1.5 py-0.5 md:px-3 md:py-1.5 rounded-full shadow-sm">

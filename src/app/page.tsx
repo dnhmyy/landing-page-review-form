@@ -9,7 +9,7 @@ export default function Home() {
     "@context": "https://schema.org",
     "@type": "Bakery",
     "name": "Roti Kebanggaan",
-    "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=1200",
+    "image": "/images/gambar1.png",
     "@id": "https://rotikebanggaan.com",
     "url": "https://rotikebanggaan.com",
     "telephone": "+622112345678",

@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     url: "https://rotikebanggaan.com",
     images: [
       {
-        url: "https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=1200",
+        url: "/images/gambar1.png",
         width: 1200,
         height: 630,
         alt: "Hero Roti Kebanggaan",

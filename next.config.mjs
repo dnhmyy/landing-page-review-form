@@ -2,14 +2,7 @@
 const nextConfig = {
     output: 'standalone',
     images: {
-        remotePatterns: [
-            {
-                protocol: 'https',
-                hostname: 'images.unsplash.com',
-                port: '',
-                pathname: '/**',
-            },
-        ],
+        formats: ['image/avif', 'image/webp'],
     },
     // Mengabaikan error linting & TS agar build produksi di VPS tidak terhenti
     eslint: {

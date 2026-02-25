@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { MapPin, Clock } from "lucide-react";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 const branches = [
     { name: "Roti Kebanggaan Sorrento", phone: "628112345678" },
@@ -15,8 +16,14 @@ const branches = [
 
 export function Footer() {
     return (
-        <footer className="bg-primary text-primary-foreground">
-            <div className="max-w-7xl mx-auto px-6 py-12">
+        <footer className="bg-primary text-primary-foreground overflow-hidden">
+            <motion.div
+                initial={{ opacity: 0, y: 32 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.9, ease: [0.21, 1, 0.36, 1] }}
+                className="max-w-7xl mx-auto px-6 py-12"
+            >
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-10">
                     {/* Brand */}
                     <div>
@@ -27,6 +34,8 @@ export function Footer() {
                                     alt="Logo Roti Kebanggaan"
                                     fill
                                     className="object-contain"
+                                    sizes="48px"
+                                    decoding="async"
                                 />
                             </div>
                             <span className="font-black text-xl tracking-tight">
@@ -106,7 +115,7 @@ export function Footer() {
                         Crafted with ❤️ in Jakarta
                     </p>
                 </div>
-            </div>
+            </motion.div>
         </footer>
     );
 }
