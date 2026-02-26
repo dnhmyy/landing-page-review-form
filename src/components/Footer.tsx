@@ -27,8 +27,8 @@ export function Footer() {
                                     alt="Logo Roti Kebanggaan"
                                     fill
                                     className="object-contain"
-                                    sizes="384px"
-                                    quality={100}
+                                    sizes="(max-width: 768px) 100px, 120px"
+                                    quality={85}
                                 />
                             </div>
                             <span className="font-black text-xl tracking-tight leading-tight">
@@ -46,6 +46,7 @@ export function Footer() {
                                 href="https://www.instagram.com/rotikebanggaanofficial/"
                                 target="_blank"
                                 rel="noopener noreferrer"
+                                aria-label="Follow us on Instagram"
                                 className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/70 hover:bg-white/10 hover:text-white hover:scale-110 transition-all duration-300"
                             >
                                 <Instagram className="w-5 h-5" />

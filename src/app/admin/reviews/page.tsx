@@ -200,7 +200,7 @@ export default function AdminReviewsPage() {
                             <LayoutDashboard className="text-primary w-7 h-7" />
                             <h1 className="text-3xl font-black tracking-tight">Review Dashboard</h1>
                         </div>
-                        <p className="text-foreground/45 text-sm font-medium">
+                        <p className="text-foreground/70 text-sm font-medium">
                             Internal — Roti Kebanggaan Admin
                         </p>
                     </div>

@@ -82,8 +82,8 @@ export function Navbar() {
                                 alt="Logo Roti Kebanggaan"
                                 fill
                                 className="object-contain"
-                                sizes="384px"
-                                quality={100}
+                                sizes="(max-width: 768px) 120px, 150px"
+                                quality={85}
                                 priority
                             />
                         </div>

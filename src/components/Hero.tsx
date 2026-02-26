@@ -48,7 +48,7 @@ export function Hero() {
                     <motion.h1
                         initial={{ opacity: 0, y: 28 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.65, delay: 0.2, ease: "easeOut" }}
+                        transition={{ duration: 0.65, delay: 0, ease: "easeOut" }}
                         className="text-[3.5rem] lg:text-[4.5rem] font-black leading-[1.0] text-foreground mb-8 tracking-tighter"
                     >
                         #Roti Kebanggaan <br />
@@ -97,7 +97,7 @@ export function Hero() {
                         {stats.map((s) => (
                             <div key={s.label} className="text-center">
                                 <div className="text-2xl font-black text-primary">{s.value}</div>
-                                <div className="text-xs text-foreground/45 font-semibold mt-0.5">
+                                <div className="text-xs text-foreground/70 font-semibold mt-0.5">
                                     {s.label}
                                 </div>
                             </div>
@@ -109,7 +109,7 @@ export function Hero() {
                 <motion.div
                     initial={{ opacity: 0, scale: 0.92 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 1.1, ease: "easeOut" }}
+                    transition={{ duration: 0.8, delay: 0, ease: "easeOut" }}
                     className="relative"
                 >
                     <div className="relative aspect-[4/5] rounded-[44px] overflow-hidden shadow-2xl shadow-primary/10 border-[10px] border-white ring-1 ring-primary/10 group">
@@ -120,8 +120,8 @@ export function Hero() {
                             fill
                             className="object-cover scale-105 group-hover:scale-100 transition-transform duration-1000"
                             priority
-                            sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 1200px"
-                            quality={100}
+                            sizes="(max-width: 768px) 100vw, (max-width: 1280px) 700px, 1000px"
+                            quality={85}
                         />
                     </div>
 

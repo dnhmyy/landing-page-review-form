@@ -95,8 +95,8 @@ export function FeaturedProducts() {
                                     fill
                                     className="object-cover group-hover:scale-105 transition-transform duration-700"
                                     loading="lazy"
-                                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                                    quality={90}
+                                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 40vw, 500px"
+                                    quality={85}
                                 />
                                 <div className="absolute top-2 right-2 md:top-6 md:right-6">
                                     {product.tag === "Best Seller" ? (
