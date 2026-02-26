@@ -28,14 +28,8 @@ interface Review {
     createdAt: string;
 }
 
-const branches = [
-    "Roti Kebanggaan Sorrento",
-    "Roti Kebanggaan Beryl",
-    "Roti Kebanggaan Downtown",
-    "Roti Kebanggaan Greenlake",
-    "Roti Kebanggaan Kelapa Gading",
-    "Roti Kebanggaan Grand Indonesia",
-];
+import { branches } from "@/lib/branches";
+const branchNames = branches.map(b => b.name);
 
 // ─── Star Components ────────────────────────────────────────────────────────
 function StarDisplay({ rating }: { rating: number }) {
@@ -240,7 +234,7 @@ export default function AdminReviewsPage() {
                                 className="w-full pl-10 pr-8 py-3 rounded-xl bg-white border border-primary/10 focus:border-primary appearance-none outline-none shadow-sm font-medium text-sm"
                             >
                                 <option value="all">Semua Cabang</option>
-                                {branches.map(b => <option key={b} value={b}>{b}</option>)}
+                                {branchNames.map(b => <option key={b} value={b}>{b}</option>)}
                             </select>
                             <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-foreground/30 w-4 h-4 pointer-events-none" />
                         </div>

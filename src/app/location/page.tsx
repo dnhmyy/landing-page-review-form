@@ -8,56 +8,8 @@ import { Footer } from "@/components/Footer";
 
 import { MapPin } from "lucide-react";
 
-const branchesLocation = [
-    {
-        id: 1,
-        name: "Roti Kebanggaan Sorrento",
-        address: "Gading Serpong, Tangerang",
-        hours: "07:00 - 21:00",
-        mapUrl: "https://maps.google.com/",
-        image: "/images/logo.png"
-    },
-    {
-        id: 2,
-        name: "Roti Kebanggaan Beryl",
-        address: "Gading Serpong, Tangerang",
-        hours: "07:00 - 21:00",
-        mapUrl: "https://maps.google.com/",
-        image: "/images/logo.png"
-    },
-    {
-        id: 3,
-        name: "Roti Kebanggaan Downtown",
-        address: "Alam Sutera, Tangerang",
-        hours: "07:00 - 21:00",
-        mapUrl: "https://maps.google.com/",
-        image: "/images/logo.png"
-    },
-    {
-        id: 4,
-        name: "Roti Kebanggaan Greenlake",
-        address: "Green Lake City, Tangerang",
-        hours: "07:00 - 21:00",
-        mapUrl: "https://maps.google.com/",
-        image: "/images/logo.png"
-    },
-    {
-        id: 5,
-        name: "Roti Kebanggaan Kelapa Gading",
-        address: "Kelapa Gading, Jakarta",
-        hours: "07:00 - 21:00",
-        mapUrl: "https://maps.google.com/",
-        image: "/images/logo.png"
-    },
-    {
-        id: 6,
-        name: "Roti Kebanggaan Grand Indonesia",
-        address: "Menteng, Jakarta",
-        hours: "07:00 - 21:00",
-        mapUrl: "https://maps.google.com/",
-        image: "/images/logo.png"
-    },
-];
+import { branches } from "@/lib/branches";
+const branchesLocation = branches;
 
 export default function LocationPage() {
     return (
@@ -119,8 +71,8 @@ export default function LocationPage() {
                                             alt={branch.name}
                                             fill
                                             className="object-contain group-hover:scale-110 transition-transform duration-700"
-                                            quality={90}
-                                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 300px"
+                                            quality={100}
+                                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 600px"
                                         />
                                     </div>
                                     <div className="absolute top-2 right-2 md:top-4 md:right-4">
@@ -130,7 +82,7 @@ export default function LocationPage() {
                                     </div>
                                 </div>
                                 <div className="p-3 md:p-5 flex flex-col flex-1">
-                                    <h3 className="text-sm md:text-xl font-black text-foreground mb-1 group-hover:text-primary transition-colors line-clamp-2 md:line-clamp-1">
+                                    <h3 className="text-sm md:text-xl font-black text-foreground mb-1 group-hover:text-primary transition-colors">
                                         {branch.name}
                                     </h3>
                                     <p className="hidden md:block text-foreground/50 text-xs leading-relaxed mb-2 line-clamp-2 italic flex-1">

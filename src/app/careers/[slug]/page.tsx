@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { positions } from "@/lib/jobs";
-import { ChevronRight, Briefcase, CheckCircle2, ClipboardList } from "lucide-react";
+import { ChevronRight, Briefcase, CheckCircle2, ClipboardList, Mail, MessageCircle } from "lucide-react";
 
 export default function JobDetailPage() {
     const params = useParams();
@@ -27,10 +27,26 @@ export default function JobDetailPage() {
     }
 
     const handleApply = () => {
-        const email = "hr@rotikebanggaan.com";
+        const email = job.contactEmail || "hrd@rotikebanggaan.com";
         const subject = encodeURIComponent(`Job Application - ${job.title}`);
-        const body = encodeURIComponent(`Hello, I would like to apply for the position of ${job.title}.`);
+        const body = encodeURIComponent(
+            `Halo Tim Roti Kebanggaan,
+
+        Saya tertarik untuk melamar posisi ${job.title}.  
+        Bersama email ini saya lampirkan surat lamaran dan CV saya untuk pertimbangan.
+
+        Terima kasih atas perhatian dan waktunya.
+
+        Salam,  
+        [Nama Anda]`
+        );
         window.open(`mailto:${email}?subject=${subject}&body=${body}`, "_blank");
+    };
+
+    const handleWa = () => {
+        if (!job.contactWa) return;
+        const message = encodeURIComponent(`Halo, saya tertarik untuk melamar posisi ${job.title}di Roti Kebanggaan. Saya akan mengirim CV dan surat lamaran sesuai instruksi. Terima kasih.`);
+        window.open(`https://wa.me/${job.contactWa}?text=${message}`, "_blank");
     };
 
     return (
@@ -127,17 +143,29 @@ export default function JobDetailPage() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5, delay: 0.2 }}
-                        className="pt-4"
+                        className="pt-4 space-y-4"
                     >
-                        <button
-                            onClick={handleApply}
-                            className="w-full py-4 bg-primary text-white text-xl font-black rounded-2xl hover:bg-primary/90 transition-all flex items-center justify-center gap-2 shadow-lg shadow-primary/20 hover:scale-[1.01] active:scale-[0.99]"
-                        >
-                            Apply Now <ChevronRight className="w-6 h-6" />
-                        </button>
-                        <p className="text-center text-foreground/30 text-xs mt-3">
-                            Klik tombol di atas untuk mengirim lamaran via email
-                        </p>
+                        <div className="flex flex-col md:flex-row gap-4">
+                            <button
+                                onClick={handleApply}
+                                className="flex-1 py-4 bg-primary text-white text-lg font-black rounded-2xl hover:bg-primary/90 transition-all flex items-center justify-center gap-2 shadow-lg shadow-primary/20 hover:scale-[1.01] active:scale-[0.99]"
+                            >
+                                <Mail className="w-5 h-5" /> Apply via Email
+                            </button>
+                            {job.contactWa && (
+                                <button
+                                    onClick={handleWa}
+                                    className="flex-1 py-4 bg-[#25D366] text-white text-lg font-black rounded-2xl hover:bg-[#22c35e] transition-all flex items-center justify-center gap-2 shadow-lg shadow-green-500/20 hover:scale-[1.01] active:scale-[0.99]"
+                                >
+                                    <MessageCircle className="w-5 h-5" /> Apply via WhatsApp
+                                </button>
+                            )}
+                        </div>
+                        <div className="text-center space-y-1">
+                            <p className="text-foreground/40 text-xs">
+                                Kirimkan Surat Lamaran dan CV Lengkap ke salah satu kontak di atas
+                            </p>
+                        </div>
                     </motion.div>
 
                 </div>

@@ -8,22 +8,23 @@ export default function Home() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Bakery",
-    "name": "Roti Kebanggaan",
-    "image": "/images/gambar1.png",
+    "name": "Roti Kebanggaan Gading Serpong",
+    "image": "https://rotikebanggaan.com/images/gambar1.png",
+    "description": "Roti jadul terlembut di Gading Serpong—fresh from the oven, 100% Halal Certified, made with premium ingredients and no preservatives added.",
     "@id": "https://rotikebanggaan.com",
     "url": "https://rotikebanggaan.com",
-    "telephone": "+622112345678",
+    "telephone": "+6281231188181",
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "Gading Serpong",
+      "streetAddress": "Jl. Beryl 3 No. 31, Gading Serpong",
       "addressLocality": "Tangerang",
       "postalCode": "15810",
       "addressCountry": "ID"
     },
     "aggregateRating": {
       "@type": "AggregateRating",
-      "ratingValue": "4.9",
-      "reviewCount": "2500"
+      "ratingValue": "4.7",
+      "reviewCount": "1275"
     }
   };
 

@@ -4,10 +4,10 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 
 const milestones = [
-    { year: "2010", label: "Founded in Gading Serpong" },
-    { year: "2015", label: "Opened 3rd branch" },
-    { year: "2019", label: "Best Artisan Bakery award" },
-    { year: "2024", label: "7 branches across Jakarta" },
+    { year: "2018", label: "Founded as Bungsu Bakery" },
+    { year: "2020", label: "Rebranded to Roti Kebanggaan" },
+    { year: "2022", label: "Gading Serpong Hidden Gem Label" },
+    { year: "2024", label: "Expanding across Jakarta" },
 ];
 
 export function About() {
@@ -23,22 +23,22 @@ export function About() {
                         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
                         className="relative"
                     >
-                        <div className="aspect-[3/4] rounded-[80px] overflow-hidden shadow-2xl shadow-primary/10 border-[10px] border-white ring-1 ring-primary/10">
+                        <div className="relative aspect-[3/4] rounded-[80px] overflow-hidden shadow-2xl shadow-primary/10 border-[10px] border-white ring-1 ring-primary/10">
                             <Image
                                 src="/images/gambar2.png"
-                                alt="Roti Kebanggaan bakery kitchen"
+                                alt="Roti Kebanggaan Gading Serpong kitchen"
                                 fill
                                 className="object-cover"
                                 loading="lazy"
-                                sizes="(max-width: 768px) 100vw, 800px"
+                                sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 800px"
                                 quality={90}
                             />
                         </div>
                         {/* Accent card */}
                         <div className="absolute -right-8 top-20 bg-primary rounded-3xl p-6 text-white shadow-xl max-w-[180px]">
-                            <div className="text-4xl font-black mb-1">15+</div>
+                            <div className="text-4xl font-black mb-1">20+</div>
                             <div className="text-white/80 text-sm font-semibold leading-tight">
-                                Years of Artisan Baking
+                                Varian Roti Terlembut
                             </div>
                         </div>
                     </motion.div>
@@ -51,21 +51,24 @@ export function About() {
                         transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
                     >
                         <p className="text-primary font-black text-sm uppercase tracking-[0.25em] mb-6">
-                            Our Story
+                            The Legend of Secret Recipe
                         </p>
                         <h2 className="text-5xl font-black text-foreground mb-8 leading-tight">
-                            Kualitas terbaik <br />
-                            <span className="text-primary italic">untuk momen spesial.</span>
+                            Roti Jadul Terlembut <br />
+                            <span className="text-primary italic">di Gading Serpong.</span>
                         </h2>
                         <p className="text-lg text-foreground/65 leading-relaxed mb-6">
-                            Roti Kebanggaan dimulai dari dapur kecil di Gading Serpong pada
-                            tahun 2010. Dipimpin oleh keluarga penggemar roti yang percaya
-                            bahwa roti yang baik adalah cerminan dari kehangatan dan dedikasi.
+                            Berawal dari dapur sederhana di Gading Serpong pada tahun 2018 dengan nama
+                            <span className="font-bold text-primary px-2 py-1 rounded-md">Bungsu Bakery</span>,
+                            kami bertransformasi menjadi
+                            <span className="font-bold text-primary px-2 py-1 rounded-md">
+                                Roti Kebanggaan Gading Serpong
+                            </span>
+                            — sebuah dedikasi untuk menghidupkan kembali cita rasa roti klasik berkualitas tinggi yang dibuat fresh from the oven dengan premium ingredients.
                         </p>
                         <p className="text-lg text-foreground/65 leading-relaxed mb-12">
-                            We source only the finest local ingredients, combine traditional
-                            techniques with modern craft, and bake fresh every morning —
-                            because you deserve nothing but the best.
+                            Dikenal sebagai "Hidden Gem" yang selalu diramaikan antrean pelanggan setia, kami hanya menggunakan bahan segar pilihan, tanpa pengawet (no preservatives added) dan <span className="font-bold text-primary px-2 py-1 rounded-md">telah tersertifikasi 100% Halal.</span>
+                            Setiap roti dipanggang fresh 3 kali sehari untuk memastikan kelembutan maksimal yang tidak akan Anda temukan di tempat lain.
                         </p>
 
                         {/* Timeline */}

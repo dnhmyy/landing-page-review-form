@@ -50,8 +50,8 @@ export function FeaturedProducts() {
                             transition={{ duration: 0.5, delay: 0.2 }}
                             className="text-foreground/55 text-lg leading-relaxed"
                         >
-                            Dipanggang segar setiap pagi — bahan premium, teknik tradisional,
-                            cita rasa tak tergantikan.
+                            Dipanggang fresh from the oven setiap pagi — made with premium ingredients,
+                            no preservatives added, dengan cita rasa tak tergantikan.
                         </motion.p>
                     </div>
 
@@ -99,9 +99,16 @@ export function FeaturedProducts() {
                                     quality={90}
                                 />
                                 <div className="absolute top-2 right-2 md:top-6 md:right-6">
-                                    <span className="bg-white/90 backdrop-blur-md text-primary font-black text-[7px] md:text-[10px] uppercase tracking-widest px-1.5 py-0.5 md:px-4 md:py-2 rounded-full shadow-sm">
-                                        {product.tag}
-                                    </span>
+                                    {product.tag === "Best Seller" ? (
+                                        <span className="bg-amber-400 text-amber-950 font-black text-[9px] md:text-[11px] uppercase tracking-[0.15em] px-2.5 py-1 md:px-5 md:py-2.5 rounded-full shadow-lg shadow-amber-500/20 border border-amber-300/50 flex items-center gap-1.5">
+                                            <span className="w-1 h-1 rounded-full bg-amber-950 animate-pulse" />
+                                            {product.tag}
+                                        </span>
+                                    ) : (
+                                        <span className="bg-white/80 backdrop-blur-md text-primary/80 font-black text-[9px] md:text-[10px] uppercase tracking-widest px-2 py-0.5 md:px-4 md:py-2 rounded-full border border-white/20 shadow-sm">
+                                            {product.tag}
+                                        </span>
+                                    )}
                                 </div>
                             </div>
                             <div className="p-3 md:p-8 flex flex-col flex-1">

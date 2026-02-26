@@ -19,6 +19,7 @@ const navLinks = [
 export function Navbar() {
     const [scrolled, setScrolled] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
+    const [activeSection, setActiveSection] = useState("home");
     const pathname = usePathname();
 
     useEffect(() => {
@@ -27,8 +28,40 @@ export function Navbar() {
         return () => window.removeEventListener("scroll", onScroll);
     }, []);
 
+    useEffect(() => {
+        if (pathname !== "/") return;
+
+        const observerOptions = {
+            root: null,
+            rootMargin: "-40% 0px -40% 0px",
+            threshold: 0,
+        };
+
+        const observerCallback = (entries: IntersectionObserverEntry[]) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    setActiveSection(entry.target.id);
+                }
+            });
+        };
+
+        const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+        const sections = ["home", "about"];
+        sections.forEach((id) => {
+            const el = document.getElementById(id);
+            if (el) observer.observe(el);
+        });
+
+        return () => observer.disconnect();
+    }, [pathname]);
+
     const isActive = (href: string) => {
-        if (href.startsWith("#")) return pathname === "/";
+        if (href.startsWith("/#") || href === "/") {
+            if (pathname !== "/") return false;
+            const targetId = href === "/" ? "home" : href.substring(2);
+            return activeSection === targetId;
+        }
         return pathname === href;
     };
 
@@ -39,30 +72,32 @@ export function Navbar() {
                 : "border-b border-transparent"
                 }`}
         >
-            <nav className="max-w-7xl mx-auto px-6 h-18 flex items-center justify-between py-4">
-                {/* Logo */}
-                <Link href="/" className="flex items-center gap-2.5 group">
-                    <div className="w-12 h-12 relative group-hover:scale-105 transition-transform">
-                        <Image
-                            src="/images/logo.png"
-                            alt="Logo Roti Kebanggaan"
-                            fill
-                            className="object-contain"
-                            sizes="128px"
-                            quality={100}
-                            priority
-                        />
-                    </div>
-                    <span className="font-black text-xl text-primary tracking-tight">
-                        Roti Kebanggaan
-                    </span>
-                </Link>
+            <nav className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+                {/* Logo (Left) */}
+                <div className="flex-1">
+                    <Link href="/" className="flex items-center gap-2.5 group w-fit">
+                        <div className="w-10 h-10 md:w-12 md:h-12 relative group-hover:scale-105 transition-transform">
+                            <Image
+                                src="/images/logo.png"
+                                alt="Logo Roti Kebanggaan"
+                                fill
+                                className="object-contain"
+                                sizes="384px"
+                                quality={100}
+                                priority
+                            />
+                        </div>
+                        <span className="font-black text-lg md:text-xl text-primary tracking-tight">
+                            Roti Kebanggaan
+                        </span>
+                    </Link>
+                </div>
 
-                {/* Desktop Nav */}
+                {/* Desktop Nav (Center) */}
                 <div className="hidden md:flex items-center gap-6 lg:gap-8">
                     {navLinks.map((link) => (
                         <Link
-                            key={link.href}
+                            key={link.label}
                             href={link.href}
                             className={`relative text-sm font-semibold transition-colors py-1 ${isActive(link.href)
                                 ? "text-primary"
@@ -81,49 +116,49 @@ export function Navbar() {
                     ))}
                 </div>
 
-                {/* CTA Desktop */}
-                <div className="hidden md:flex items-center gap-4">
+                {/* CTA & Mobile Toggle (Right) */}
+                <div className="flex-1 flex items-center justify-end gap-4">
                     <Link
                         href="/review"
-                        className="text-sm font-bold px-6 py-2.5 rounded-xl bg-primary text-white hover:bg-primary/90 shadow-md shadow-primary/15 transition-all hover:scale-[1.02]"
+                        className="hidden md:block text-sm font-bold px-6 py-2.5 rounded-xl bg-primary text-white hover:bg-primary/90 shadow-md shadow-primary/15 transition-all hover:scale-[1.02]"
                     >
                         Customer Reviews
                     </Link>
-                </div>
 
-                {/* Mobile Toggle */}
-                <button
-                    className={`md:hidden p-2.5 rounded-xl transition-all duration-200 ${mobileOpen
-                        ? "bg-primary text-white"
-                        : "bg-primary/10 text-primary hover:bg-primary/15"
-                        }`}
-                    onClick={() => setMobileOpen((v) => !v)}
-                    aria-label="Toggle menu"
-                >
-                    <AnimatePresence mode="wait" initial={false}>
-                        {mobileOpen ? (
-                            <motion.div
-                                key="close"
-                                initial={{ rotate: -90, opacity: 0 }}
-                                animate={{ rotate: 0, opacity: 1 }}
-                                exit={{ rotate: 90, opacity: 0 }}
-                                transition={{ duration: 0.15 }}
-                            >
-                                <X className="w-6 h-6" />
-                            </motion.div>
-                        ) : (
-                            <motion.div
-                                key="menu"
-                                initial={{ rotate: 90, opacity: 0 }}
-                                animate={{ rotate: 0, opacity: 1 }}
-                                exit={{ rotate: -90, opacity: 0 }}
-                                transition={{ duration: 0.15 }}
-                            >
-                                <Menu className="w-6 h-6" />
-                            </motion.div>
-                        )}
-                    </AnimatePresence>
-                </button>
+                    {/* Mobile Toggle */}
+                    <button
+                        className={`md:hidden p-2.5 rounded-xl transition-all duration-200 ${mobileOpen
+                            ? "bg-primary text-white"
+                            : "bg-primary/10 text-primary hover:bg-primary/15"
+                            }`}
+                        onClick={() => setMobileOpen((v) => !v)}
+                        aria-label="Toggle menu"
+                    >
+                        <AnimatePresence mode="wait" initial={false}>
+                            {mobileOpen ? (
+                                <motion.div
+                                    key="close"
+                                    initial={{ rotate: -90, opacity: 0 }}
+                                    animate={{ rotate: 0, opacity: 1 }}
+                                    exit={{ rotate: 90, opacity: 0 }}
+                                    transition={{ duration: 0.15 }}
+                                >
+                                    <X className="w-5 h-5" />
+                                </motion.div>
+                            ) : (
+                                <motion.div
+                                    key="menu"
+                                    initial={{ rotate: 90, opacity: 0 }}
+                                    animate={{ rotate: 0, opacity: 1 }}
+                                    exit={{ rotate: -90, opacity: 0 }}
+                                    transition={{ duration: 0.15 }}
+                                >
+                                    <Menu className="w-5 h-5" />
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+                    </button>
+                </div>
             </nav>
 
             {/* Mobile Menu */}

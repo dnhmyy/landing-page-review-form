@@ -8,14 +8,7 @@ import Image from "next/image";
 import { Check, ChevronRight } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 
-const branches = [
-    { name: "Roti Kebanggaan Sorrento", wa: "628111111111" },
-    { name: "Roti Kebanggaan Beryl", wa: "628222222222" },
-    { name: "Roti Kebanggaan Downtown", wa: "6282118888181" },
-    { name: "Roti Kebanggaan Greenlake", wa: "628444444444" },
-    { name: "Roti Kebanggaan Kelapa Gading", wa: "628555555555" },
-    { name: "Roti Kebanggaan Grand Indonesia", wa: "628666666666" },
-];
+import { branches } from "@/lib/branches";
 
 function OrderForm() {
     const searchParams = useSearchParams();

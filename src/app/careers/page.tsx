@@ -34,7 +34,7 @@ export default function CareersPage() {
                                 Join Our Team
                             </h1>
                             <p className="text-white/60 text-lg max-w-2xl leading-relaxed">
-                                Let&apos;s bake happiness together
+                                Let&apos;s make happiness together
                             </p>
                             <div className="mt-6 w-16 h-1 rounded-full bg-accent/60" />
                         </div>

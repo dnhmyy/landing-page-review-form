@@ -6,11 +6,12 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
 
 export const metadata: Metadata = {
-  title: "Roti Kebanggaan Gading Serpong - Toko roti terbaik di Tangerang | Fresh Setiap Hari",
-  description: "Rasakan keaslian seni memanggang roti artisan. Sourdough buatan tangan, pastri segar, dan teknik tradisional. Pesan sekarang untuk kesegaran harian.",
+  metadataBase: new URL("https://rotikebanggaan.com"),
+  title: "Roti Kebanggaan Gading Serpong - Roti Jadul Hidden Gem Lembut & Fresh",
+  description: "Menemukan kebahagiaan dalam kelembutan Roti Kebanggaan Gading Serpong. Legenda roti jadul hidden gem sejak 2018 dengan isian melimpah—fresh from the oven, 100% Halal Certified, made with premium ingredients and no preservatives added!",
   openGraph: {
-    title: "Roti Kebanggaan Gading Serpong - Toko roti terbaik di Tangerang | Fresh Setiap Hari",
-    description: "Momen berharga di setiap gigitan roti buatan tangan kami.",
+    title: "Roti Kebanggaan Gading Serpong - Roti Jadul Hidden Gem Lembut & Fresh",
+    description: "Merasakan nostalgia di setiap gigitan roti jadul terlembut di Gading Serpong—fresh from the oven, made with premium ingredients and no preservatives added.",
     type: "website",
     url: "https://rotikebanggaan.com",
     images: [
@@ -21,6 +22,20 @@ export const metadata: Metadata = {
         alt: "Hero Roti Kebanggaan",
       },
     ],
+  },
+  alternates: {
+    canonical: "https://rotikebanggaan.com",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 };
 

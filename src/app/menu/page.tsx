@@ -38,7 +38,7 @@ export default function MenuPage() {
                                 Menu Andalan Kami
                             </h1>
                             <p className="text-white/60 text-lg max-w-2xl leading-relaxed">
-                                Jelajahi koleksi artisan bakery kami. Setiap produk dibuat dengan penuh kebanggaan, dedikasi, dan bahan premium terbaik.
+                                Jelajahi koleksi bakery kami yang dipanggang fresh from the oven, menggunakan premium ingredients tanpa pengawet (no preservatives added) untuk kebahagiaan harian Anda.
                             </p>
                             {/* Accent line */}
                             <div className="mt-6 w-16 h-1 rounded-full bg-accent/60" />
@@ -109,9 +109,15 @@ export default function MenuPage() {
                                         quality={90}
                                     />
                                     <div className="absolute top-2 right-2 md:top-4 md:right-4">
-                                        <span className="bg-white/90 backdrop-blur-md text-primary font-black text-[7px] md:text-[10px] uppercase tracking-widest px-1.5 py-0.5 md:px-3 md:py-1.5 rounded-full shadow-sm">
-                                            {product.tag}
-                                        </span>
+                                        {product.tag === "Best Seller" ? (
+                                            <span className="bg-amber-400 text-amber-950 font-black text-[9px] md:text-[10px] uppercase tracking-[0.1em] px-2 py-0.5 md:px-3 md:py-1.5 rounded-full shadow-md border border-amber-300/50 flex items-center gap-1">
+                                                {product.tag}
+                                            </span>
+                                        ) : (
+                                            <span className="bg-white/70 backdrop-blur-md text-primary/70 font-black text-[9px] md:text-[10px] uppercase tracking-widest px-1.5 py-0.5 md:px-3 md:py-1.5 rounded-full border border-white/20 shadow-sm">
+                                                {product.tag}
+                                            </span>
+                                        )}
                                     </div>
                                 </div>
                                 <div className="p-3 md:p-5 flex flex-col flex-1">
