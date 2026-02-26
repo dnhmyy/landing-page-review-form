@@ -16,7 +16,7 @@ export const branches: Branch[] = [
         address: "South Sorrento No. 16, Gading Serpong",
         hours: "07:00 - 21:00",
         mapUrl: "https://maps.google.com/",
-        image: "/images/logo.png"
+        image: "/images/logo.webp"
     },
     {
         id: 2,
@@ -25,7 +25,7 @@ export const branches: Branch[] = [
         address: "Jl. Beryl 3 No. 31, Gading Serpong",
         hours: "07:00 - 21:00",
         mapUrl: "https://maps.google.com/",
-        image: "/images/logo.png"
+        image: "/images/logo.webp"
     },
     {
         id: 3,
@@ -34,7 +34,7 @@ export const branches: Branch[] = [
         address: "Ruko Downtown Drive No. 07, Gading Serpong",
         hours: "07:00 - 21:00",
         mapUrl: "https://maps.google.com/",
-        image: "/images/outlet/Downtown.jpg"
+        image: "/images/outlet/Downtown.webp"
     },
     {
         id: 4,
@@ -43,7 +43,7 @@ export const branches: Branch[] = [
         address: "Ruko Columbus A/28, Green Lake City",
         hours: "07:00 - 21:00",
         mapUrl: "https://maps.google.com/",
-        image: "/images/logo.png"
+        image: "/images/logo.webp"
     },
     {
         id: 5,
@@ -52,7 +52,7 @@ export const branches: Branch[] = [
         address: "GAFOY 1-B, Mall Kelapa Gading",
         hours: "07:00 - 22:00",
         mapUrl: "https://maps.google.com/",
-        image: "/images/logo.png"
+        image: "/images/logo.webp"
     },
     {
         id: 6,
@@ -61,6 +61,6 @@ export const branches: Branch[] = [
         address: "East Mall Lt. 5, Grand Indonesia",
         hours: "09:00 - 22:00",
         mapUrl: "https://maps.google.com/",
-        image: "/images/logo.png"
+        image: "/images/logo.webp"
     },
 ];

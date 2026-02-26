@@ -57,14 +57,11 @@
   /* Optimize image rendering for HD feel */
   img {
     @apply transition-opacity duration-300;
-    content-visibility: auto;
   }
 
   /* Smooth rendering for shadows and borders */
   * {
     @apply border-border;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
   }
 
   ::selection {

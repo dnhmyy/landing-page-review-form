@@ -9,7 +9,7 @@ export default function Home() {
     "@context": "https://schema.org",
     "@type": "Bakery",
     "name": "Roti Kebanggaan Gading Serpong",
-    "image": "https://rotikebanggaan.com/images/gambar1.png",
+    "image": "https://rotikebanggaan.com/images/gambar1.webp",
     "description": "Roti jadul terlembut di Gading Serpong—fresh from the oven, 100% Halal Certified, made with premium ingredients and no preservatives added.",
     "@id": "https://rotikebanggaan.com",
     "url": "https://rotikebanggaan.com",

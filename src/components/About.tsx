@@ -25,7 +25,7 @@ export function About() {
                     >
                         <div className="relative aspect-[3/4] rounded-[80px] overflow-hidden shadow-2xl shadow-primary/10 border-[10px] border-white ring-1 ring-primary/10">
                             <Image
-                                src="/images/gambar2.png"
+                                src="/images/gambar2.webp"
                                 alt="Roti Kebanggaan Gading Serpong kitchen"
                                 fill
                                 className="object-cover"

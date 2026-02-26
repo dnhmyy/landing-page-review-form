@@ -23,7 +23,7 @@ export function Footer() {
                         <div className="flex items-center gap-3 mb-6">
                             <div className="w-12 h-12 relative flex-shrink-0">
                                 <Image
-                                    src="/images/logo.png"
+                                    src="/images/logo.webp"
                                     alt="Logo Roti Kebanggaan"
                                     fill
                                     className="object-contain"

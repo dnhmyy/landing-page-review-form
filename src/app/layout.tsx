@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     url: "https://rotikebanggaan.com",
     images: [
       {
-        url: "/images/gambar1.png",
+        url: "/images/gambar1.webp",
         width: 1200,
         height: 630,
         alt: "Hero Roti Kebanggaan",
@@ -47,7 +47,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <head>
-        <link rel="icon" href="/images/logo.png" type="image/png" />
+        <link rel="icon" href="/images/logo.webp" type="image/webp" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>

@@ -115,7 +115,7 @@ export function Hero() {
                     <div className="relative aspect-[4/5] rounded-[44px] overflow-hidden shadow-2xl shadow-primary/10 border-[10px] border-white ring-1 ring-primary/10 group">
                         <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent z-10 transition-opacity duration-500 group-hover:opacity-50" />
                         <Image
-                            src="/images/gambar1.png"
+                            src="/images/gambar1.webp"
                             alt="Roti Kebanggaan — freshly baked artisan bread"
                             fill
                             className="object-cover scale-105 group-hover:scale-100 transition-transform duration-1000"

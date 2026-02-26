@@ -78,7 +78,7 @@ export function Navbar() {
                     <Link href="/" className="flex items-center gap-2.5 group w-fit">
                         <div className="w-10 h-10 md:w-12 md:h-12 relative group-hover:scale-105 transition-transform">
                             <Image
-                                src="/images/logo.png"
+                                src="/images/logo.webp"
                                 alt="Logo Roti Kebanggaan"
                                 fill
                                 className="object-contain"
@@ -109,7 +109,7 @@ export function Navbar() {
                                 <motion.span
                                     layoutId="nav-underline"
                                     className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary rounded-full"
-                                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                                    transition={{ type: "spring", stiffness: 500, damping: 35 }}
                                 />
                             )}
                         </Link>
@@ -141,7 +141,7 @@ export function Navbar() {
                                     initial={{ rotate: -90, opacity: 0 }}
                                     animate={{ rotate: 0, opacity: 1 }}
                                     exit={{ rotate: 90, opacity: 0 }}
-                                    transition={{ duration: 0.15 }}
+                                    transition={{ duration: 0.1 }}
                                 >
                                     <X className="w-5 h-5" />
                                 </motion.div>
@@ -168,7 +168,7 @@ export function Navbar() {
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: "auto" }}
                         exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.25 }}
+                        transition={{ duration: 0.15 }}
                         className="md:hidden bg-white/95 backdrop-blur-lg border-b border-primary/10 overflow-hidden"
                     >
                         <div className="px-6 py-6 flex flex-col gap-1">
