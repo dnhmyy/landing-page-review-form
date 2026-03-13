@@ -33,6 +33,10 @@ yarn-error.log*
 /public/uploads/
 *.db
 *.sqlite
+*.db-journal
 
 # prisma
 /src/generated/prisma
+
+# maintenance docs (may contain internal deployment info)
+maintenance_guide.md

@@ -10,6 +10,7 @@ const nextConfig = {
     // Security & Cache Headers
     async headers() {
         return [
+            // Static asset caching
             {
                 source: '/:all*(svg|jpg|png|webp|avif|otf|ttf|woff|woff2)',
                 headers: [
@@ -19,15 +20,43 @@ const nextConfig = {
                     },
                 ],
             },
+            // Security headers on all routes
+            {
+                source: '/:path*',
+                headers: [
+                    {
+                        key: 'X-Frame-Options',
+                        value: 'SAMEORIGIN',
+                    },
+                    {
+                        key: 'X-Content-Type-Options',
+                        value: 'nosniff',
+                    },
+                    {
+                        key: 'Referrer-Policy',
+                        value: 'strict-origin-when-cross-origin',
+                    },
+                    {
+                        key: 'Permissions-Policy',
+                        value: 'camera=(), microphone=(), geolocation=()',
+                    },
+                    {
+                        key: 'Content-Security-Policy',
+                        value: [
+                            "default-src 'self'",
+                            "script-src 'self' 'unsafe-inline' 'unsafe-eval'", // unsafe-eval needed by Next.js dev
+                            "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+                            "font-src 'self' https://fonts.gstatic.com",
+                            "img-src 'self' data: blob:",
+                            "connect-src 'self'",
+                            "frame-ancestors 'none'",
+                        ].join('; '),
+                    },
+                ],
+            },
         ];
-    },
-    // Mengabaikan error linting & TS agar build produksi di VPS tidak terhenti
-    eslint: {
-        ignoreDuringBuilds: true,
-    },
-    typescript: {
-        ignoreBuildErrors: true,
     },
 };
 
 export default nextConfig;
+

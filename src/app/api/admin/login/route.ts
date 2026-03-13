@@ -1,9 +1,41 @@
 import { NextRequest, NextResponse } from "next/server";
 
+// Brute-force protection: max 5 attempts per IP per 15 minutes
+const loginRateLimit = new Map<string, { count: number; resetAt: number }>();
+
+function checkLoginRateLimit(ip: string): boolean {
+    const now = Date.now();
+    const entry = loginRateLimit.get(ip);
+
+    if (!entry || now > entry.resetAt) {
+        loginRateLimit.set(ip, { count: 1, resetAt: now + 15 * 60 * 1000 });
+        return true;
+    }
+
+    if (entry.count >= 5) return false;
+
+    entry.count++;
+    return true;
+}
+
 export async function POST(req: NextRequest) {
     try {
+        const ip = (req.headers.get("x-forwarded-for") ?? "anonymous").split(",")[0].trim();
+
+        if (!checkLoginRateLimit(ip)) {
+            return NextResponse.json(
+                { error: "Terlalu banyak percobaan login. Coba lagi dalam 15 menit." },
+                { status: 429 }
+            );
+        }
+
+        const secret = process.env.ADMIN_SECRET;
+        if (!secret) {
+            console.error("[ADMIN_LOGIN] ADMIN_SECRET is not configured");
+            return NextResponse.json({ error: "Server misconfiguration" }, { status: 500 });
+        }
+
         const { passcode } = await req.json();
-        const secret = process.env.ADMIN_SECRET || "rk-admin-dev-secret";
 
         if (passcode === secret) {
             const response = NextResponse.json({ success: true });

@@ -87,7 +87,7 @@ export async function POST(req: NextRequest) {
 
         if (!validated.success) {
             return NextResponse.json(
-                { error: "Validation failed", issues: validated.error.issues },
+                { error: "Validation failed" },
                 { status: 400 }
             );
         }
@@ -104,7 +104,7 @@ export async function POST(req: NextRequest) {
         });
 
         return NextResponse.json(review, { status: 201 });
-    } catch (error: any) {
+    } catch (error) {
         console.error("[REVIEWS_POST]", error);
         return NextResponse.json({
             error: "Failed to submit review",

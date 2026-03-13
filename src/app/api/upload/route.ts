@@ -9,6 +9,12 @@ const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
 const MAX_SIZE_BYTES = 5 * 1024 * 1024; // 5 MB
 
 export async function POST(req: NextRequest) {
+    // Auth check — only admin can upload photos
+    const session = req.cookies.get("rk_admin_session");
+    if (session?.value !== "authorized") {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     try {
         const formData = await req.formData();
         const file = formData.get("photo") as File | null;
@@ -41,11 +47,8 @@ export async function POST(req: NextRequest) {
         await writeFile(join(uploadDir, filename), buffer);
 
         return NextResponse.json({ url: `/uploads/${filename}` }, { status: 201 });
-    } catch (error: any) {
+    } catch (error) {
         console.error("[UPLOAD_POST]", error);
-        return NextResponse.json({
-            error: "Upload failed",
-            details: error.message
-        }, { status: 500 });
+        return NextResponse.json({ error: "Upload failed" }, { status: 500 });
     }
 }
