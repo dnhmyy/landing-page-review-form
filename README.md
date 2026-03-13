@@ -1,4 +1,4 @@
-# 🍞 Roti Kebanggaan — Website
+# Roti Kebanggaan — Website
 
 Landing page resmi **Roti Kebanggaan**, bakery dengan beberapa cabang di Jabodetabek. Dibangun dengan Next.js 14, Prisma, PostgreSQL, dan Docker.
 
