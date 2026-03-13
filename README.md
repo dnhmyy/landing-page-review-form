@@ -1,36 +1,138 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🍞 Roti Kebanggaan — Website
 
-## Getting Started
+Landing page resmi **Roti Kebanggaan**, bakery dengan beberapa cabang di Jabodetabek. Dibangun dengan Next.js 14, Prisma, PostgreSQL, dan Docker.
 
-First, run the development server:
+## Fitur
+
+- **Landing Page** — Hero, produk unggulan, about, lokasi cabang
+- **Menu** — Katalog produk lengkap
+- **Review** — Form ulasan pelanggan dengan foto, rating, dan filter cabang
+- **Karir** — Halaman lowongan pekerjaan
+- **Admin Dashboard** — Manajemen review (approve, hapus, filter) dengan proteksi login
+
+## Tech Stack
+
+| Layer | Teknologi |
+|-------|-----------|
+| Framework | Next.js 14 (App Router) |
+| Bahasa | TypeScript |
+| Styling | Tailwind CSS + Framer Motion |
+| Database | PostgreSQL + Prisma ORM |
+| Validasi | Zod |
+| Deployment | Docker + Docker Compose |
+
+## Struktur Cabang
+
+| Cabang | Lokasi |
+|--------|--------|
+| Sorrento | Gading Serpong |
+| Beryl | Gading Serpong |
+| Downtown | Gading Serpong |
+| Greenlake | Green Lake City |
+| Mall Kelapa Gading (Gafoy) | Jakarta Utara |
+| Mall Grand Indonesia | Jakarta Pusat |
+
+---
+
+## Setup Lokal
+
+### 1. Clone & Install
+
+```bash
+git clone https://github.com/dnhmyy/rotikebanggaan_website.git
+cd rotikebanggaan_website
+npm install
+```
+
+### 2. Konfigurasi Environment
+
+```bash
+cp .env.example .env  # lalu isi dengan nilai yang sesuai
+```
+
+Variabel yang dibutuhkan di `.env`:
+
+```env
+DATABASE_URL="postgresql://user:password@localhost:5432/rotikebanggaan?schema=public"
+ADMIN_SECRET=your_admin_secret
+NEXT_PUBLIC_BASE_URL=http://localhost:3000
+NODE_ENV=development
+```
+
+> Generate `ADMIN_SECRET` yang kuat: `openssl rand -base64 32`
+
+### 3. Setup Database
+
+```bash
+npx prisma migrate dev
+npx prisma generate
+```
+
+### 4. Jalankan Dev Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Buka [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Deployment (Docker)
 
-## Learn More
+### 1. Siapkan `.env` di server
 
-To learn more about Next.js, take a look at the following resources:
+Isi dengan nilai production yang sesungguhnya (DB password, ADMIN_SECRET, domain/IP).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 2. Build & Jalankan
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+docker compose up -d --build
+```
 
-## Deploy on Vercel
+### 3. Jalankan Migrasi Database
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+docker compose exec app npx prisma migrate deploy
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Aplikasi berjalan di port `3000`.
+
+---
+
+## API Endpoints
+
+| Method | Endpoint | Deskripsi | Auth |
+|--------|----------|-----------|------|
+| `GET` | `/api/reviews` | Ambil review yang sudah approved | — |
+| `POST` | `/api/reviews` | Submit review baru | — |
+| `POST` | `/api/upload` | Upload foto review | Admin |
+| `POST` | `/api/admin/login` | Login admin | — |
+| `GET` | `/api/admin/login` | Cek status sesi admin | — |
+| `GET` | `/api/admin/reviews` | Ambil semua review (termasuk pending) | Admin |
+
+---
+
+## Admin Dashboard
+
+Akses di `/admin/reviews`. Dilindungi dengan:
+- Cookie sesi `httpOnly`
+- Rate limiting login: maks 5 percobaan / 15 menit
+- Middleware server-side redirect untuk akses tanpa sesi
+
+---
+
+## Scripts
+
+```bash
+npm run dev      # development server
+npm run build    # production build
+npm run start    # production server
+npm run lint     # ESLint check
+```
+
+---
+
+## Developer
+
+**Akhdan** — [@dnhmyy](https://github.com/dnhmyy)
