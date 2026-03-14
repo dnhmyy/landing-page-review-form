@@ -28,3 +28,18 @@ model Review {
   @@index([rating])
   @@index([isApproved])
 }
+
+model Product {
+  id        Int      @id
+  name      String
+  category  String
+  desc      String
+  price     String
+  image     String
+  tag       String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([category])
+  @@index([tag])
+}

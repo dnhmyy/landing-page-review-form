@@ -1,17 +1,32 @@
-"use client";
-
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { ChevronRight, Filter } from "lucide-react";
+import { ChevronRight, Filter, Loader2 } from "lucide-react";
 import Link from "next/link";
 
-import { products, categories } from "@/lib/products";
+import { categories, Product } from "@/lib/products";
 
 export default function MenuPage() {
+    const [products, setProducts] = useState<Product[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
     const [selectedCategory, setSelectedCategory] = useState("All");
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const res = await fetch("/api/products");
+                const data = await res.json();
+                setProducts(data);
+            } catch (error) {
+                console.error("Error fetching products:", error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        fetchProducts();
+    }, []);
 
     const filteredProducts = selectedCategory === "All"
         ? products
@@ -69,81 +84,91 @@ export default function MenuPage() {
                         ))}
                     </div>
 
+                    {/* Loader */}
+                    {isLoading && (
+                        <div className="flex flex-col items-center justify-center py-40 gap-4">
+                            <Loader2 className="w-10 h-10 text-primary animate-spin" />
+                            <p className="text-foreground/30 font-black text-xl animate-pulse">Menyiapkan Menu...</p>
+                        </div>
+                    )}
+
                     {/* Product Grid */}
-                    <motion.div
-                        key={selectedCategory}
-                        initial="hidden"
-                        animate="show"
-                        variants={{
-                            hidden: { opacity: 0 },
-                            show: {
-                                opacity: 1,
-                                transition: {
-                                    staggerChildren: 0.04
+                    {!isLoading && (
+                        <motion.div
+                            key={selectedCategory}
+                            initial="hidden"
+                            animate="show"
+                            variants={{
+                                hidden: { opacity: 0 },
+                                show: {
+                                    opacity: 1,
+                                    transition: {
+                                        staggerChildren: 0.04
+                                    }
                                 }
-                            }
-                        }}
-                        className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-6"
-                    >
-                        {filteredProducts.map((product) => (
-                            <motion.div
-                                key={product.id}
-                                variants={{
-                                    hidden: { opacity: 0, y: 15 },
-                                    show: { opacity: 1, y: 0 }
-                                }}
-                                transition={{
-                                    duration: 0.4,
-                                    ease: [0.22, 1, 0.36, 1]
-                                }}
-                                className="group flex flex-col h-full bg-white rounded-[16px] md:rounded-[24px] overflow-hidden border border-primary/5 shadow-sm hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500"
-                            >
-                                <div className="relative shrink-0 aspect-[4/3] w-full overflow-hidden">
-                                    <Image
-                                        src={product.image}
-                                        alt={product.name}
-                                        fill
-                                        className="object-cover group-hover:scale-110 transition-transform duration-700"
-                                        loading="lazy"
-                                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
-                                        quality={90}
-                                    />
-                                    <div className="absolute top-2 right-2 md:top-4 md:right-4">
-                                        {product.tag === "Best Seller" ? (
-                                            <span className="bg-amber-400 text-amber-950 font-black text-[9px] md:text-[10px] uppercase tracking-[0.1em] px-2 py-0.5 md:px-3 md:py-1.5 rounded-full shadow-md border border-amber-300/50 flex items-center gap-1">
-                                                {product.tag}
-                                            </span>
-                                        ) : (
-                                            <span className="bg-white/70 backdrop-blur-md text-primary/70 font-black text-[9px] md:text-[10px] uppercase tracking-widest px-1.5 py-0.5 md:px-3 md:py-1.5 rounded-full border border-white/20 shadow-sm">
-                                                {product.tag}
-                                            </span>
-                                        )}
-                                    </div>
-                                </div>
-                                <div className="p-3 md:p-5 flex flex-col flex-1">
-                                    <h3 className="text-sm md:text-xl font-black text-foreground mb-1 group-hover:text-primary transition-colors line-clamp-2 md:line-clamp-1">
-                                        {product.name}
-                                    </h3>
-                                    <p className="hidden md:block text-foreground/50 text-xs leading-relaxed mb-2 line-clamp-2 italic flex-1">
-                                        {product.desc}
-                                    </p>
-                                    <div className="mt-auto pt-2 md:pt-3 border-t border-muted/30">
-                                        <div className="flex items-center justify-between">
-                                            <span className="text-primary font-black text-sm md:text-lg">
-                                                {product.price}
-                                            </span>
-                                            <Link href={`/order?item=${product.id}`} className="flex items-center gap-1 md:gap-2 text-[10px] md:text-sm font-bold text-foreground/40 group-hover:text-primary transition-colors">
-                                                Order <ChevronRight className="w-3 h-3 md:w-4 md:h-4" />
-                                            </Link>
+                            }}
+                            className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-6"
+                        >
+                            {filteredProducts.map((product) => (
+                                <motion.div
+                                    key={product.id}
+                                    variants={{
+                                        hidden: { opacity: 0, y: 15 },
+                                        show: { opacity: 1, y: 0 }
+                                    }}
+                                    transition={{
+                                        duration: 0.4,
+                                        ease: [0.22, 1, 0.36, 1]
+                                    }}
+                                    className="group flex flex-col h-full bg-white rounded-[16px] md:rounded-[24px] overflow-hidden border border-primary/5 shadow-sm hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500"
+                                >
+                                    <div className="relative shrink-0 aspect-[4/3] w-full overflow-hidden">
+                                        <Image
+                                            src={product.image}
+                                            alt={product.name}
+                                            fill
+                                            className="object-cover group-hover:scale-110 transition-transform duration-700"
+                                            loading="lazy"
+                                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+                                            quality={90}
+                                        />
+                                        <div className="absolute top-2 right-2 md:top-4 md:right-4">
+                                            {product.tag === "Best Seller" ? (
+                                                <span className="bg-amber-400 text-amber-950 font-black text-[9px] md:text-[10px] uppercase tracking-[0.1em] px-2 py-0.5 md:px-3 md:py-1.5 rounded-full shadow-md border border-amber-300/50 flex items-center gap-1">
+                                                    {product.tag}
+                                                </span>
+                                            ) : (
+                                                <span className="bg-white/70 backdrop-blur-md text-primary/70 font-black text-[9px] md:text-[10px] uppercase tracking-widest px-1.5 py-0.5 md:px-3 md:py-1.5 rounded-full border border-white/20 shadow-sm">
+                                                    {product.tag}
+                                                </span>
+                                            )}
                                         </div>
                                     </div>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </motion.div>
+                                    <div className="p-3 md:p-5 flex flex-col flex-1">
+                                        <h3 className="text-sm md:text-xl font-black text-foreground mb-1 group-hover:text-primary transition-colors line-clamp-2 md:line-clamp-1">
+                                            {product.name}
+                                        </h3>
+                                        <p className="hidden md:block text-foreground/50 text-xs leading-relaxed mb-2 line-clamp-2 italic flex-1">
+                                            {product.desc}
+                                        </p>
+                                        <div className="mt-auto pt-2 md:pt-3 border-t border-muted/30">
+                                            <div className="flex items-center justify-between">
+                                                <span className="text-primary font-black text-sm md:text-lg">
+                                                    {product.price}
+                                                </span>
+                                                <Link href={`/order?item=${product.id}`} className="flex items-center gap-1 md:gap-2 text-[10px] md:text-sm font-bold text-foreground/40 group-hover:text-primary transition-colors">
+                                                    Order <ChevronRight className="w-3 h-3 md:w-4 md:h-4" />
+                                                </Link>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </motion.div>
+                    )}
 
                     {/* Empty State */}
-                    {filteredProducts.length === 0 && (
+                    {!isLoading && filteredProducts.length === 0 && (
                         <div className="py-40 text-center">
                             <p className="text-foreground/30 font-black text-2xl">Maaf, kategori ini belum tersedia.</p>
                         </div>
