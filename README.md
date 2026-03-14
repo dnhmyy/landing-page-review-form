@@ -1,138 +1,108 @@
-# Roti Kebanggaan — Website
+# 🍞 Roti Kebanggaan - Web Landing Page
 
-Landing page resmi **Roti Kebanggaan**, bakery dengan beberapa cabang di Jabodetabek. Dibangun dengan Next.js 14, Prisma, PostgreSQL, dan Docker.
+Halo! 👋 Selamat datang di repository landing page resmi **Roti Kebanggaan**. Kita adalah bakery yang punya beberapa cabang asik di Jabodetabek. Website ini dibikin supaya pelanggan bisa cek menu, kasih review, sampai cari lowongan kerja dengan nyaman.
 
-## Fitur
-
-- **Landing Page** — Hero, produk unggulan, about, lokasi cabang
-- **Menu** — Katalog produk lengkap
-- **Review** — Form ulasan pelanggan dengan foto, rating, dan filter cabang
-- **Karir** — Halaman lowongan pekerjaan
-- **Admin Dashboard** — Manajemen review (approve, hapus, filter) dengan proteksi login
-
-## Tech Stack
-
-| Layer | Teknologi |
-|-------|-----------|
-| Framework | Next.js 14 (App Router) |
-| Bahasa | TypeScript |
-| Styling | Tailwind CSS + Framer Motion |
-| Database | PostgreSQL + Prisma ORM |
-| Validasi | Zod |
-| Deployment | Docker + Docker Compose |
-
-## Struktur Cabang
-
-| Cabang | Lokasi |
-|--------|--------|
-| Sorrento | Gading Serpong |
-| Beryl | Gading Serpong |
-| Downtown | Gading Serpong |
-| Greenlake | Green Lake City |
-| Mall Kelapa Gading (Gafoy) | Jakarta Utara |
-| Mall Grand Indonesia | Jakarta Pusat |
+Project ini dibangun pake stack modern: **Next.js 14**, **Prisma**, **PostgreSQL**, dan **Docker**. 🚀
 
 ---
 
-## Setup Lokal
+## ✨ Ada Fitur Apa Aja?
 
-### 1. Clone & Install
+Gak cuma buat pajangan, website ini punya banyak fitur:
+- **Landing Page Kece** — Intro, produk jagoan kita, cerita tentang kita, sampai lokasi cabang.
+- **Katalog Menu** — Liat semua koleksi roti kita di sini.
+- **Form Review** — Pelanggan bisa kasih ulasan bareng foto, kasih rating, dan pilih cabang mana yang mereka kunjungin.
+- **Halaman Karir** — Buat yang mau gabung tim Roti Kebanggaan.
+- **Admin Dashboard** — Manager bisa approve atau hapus review, lengkap sama login yang aman.
 
+---
+
+## 🛠️ Pake Teknologi Apa?
+
+Kita pake teknologi yang bikin dev experience enak dan performa website ngebut:
+
+| Bagian | Teknologi |
+| :--- | :--- |
+| **Framework** | Next.js 14 (App Router) |
+| **Bahasa** | TypeScript |
+| **Styling** | Tailwind CSS + Framer Motion (biar animasinya smooth ✨) |
+| **Database** | PostgreSQL + Prisma ORM |
+| **Validasi** | Zod |
+| **Deployment** | Docker + Docker Compose |
+
+---
+
+## 📍 Cabang Kita Dimana Aja?
+
+Cek lokasi kita yang tersebar di beberapa titik:
+- **Sorrento** (Gading Serpong)
+- **Beryl** (Gading Serpong)
+- **Downtown** (Gading Serpong)
+- **Greenlake** (Green Lake City)
+- **Gafoy** (Mall Kelapa Gading, Jakut)
+- **Grand Indonesia** (Jakarta Pusat)
+
+---
+
+## 🚀 Cara Jalanin di Lokal
+
+Mau coba running di laptop sendiri? Gampang, ikutin step ini ya:
+
+### 1. Ambil Code & Install
 ```bash
 git clone https://github.com/dnhmyy/rotikebanggaan_website.git
 cd rotikebanggaan_website
 npm install
 ```
 
-### 2. Konfigurasi Environment
-
+### 2. Atur Environment
+Copy dulu filenya:
 ```bash
-cp .env.example .env  # lalu isi dengan nilai yang sesuai
+cp .env.example .env
 ```
+Jangan lupa isi values-nya di `.env`. Contoh isinya:
+- `DATABASE_URL`: Link ke database PostgreSQL kamu.
+- `ADMIN_SECRET`: Password rahasia buat admin (bisa generate pake `openssl rand -base64 32`).
+- `NEXT_PUBLIC_BASE_URL`: Biasanya `http://localhost:3000`.
 
-Variabel yang dibutuhkan di `.env`:
-
-```env
-DATABASE_URL="postgresql://user:password@localhost:5432/rotikebanggaan?schema=public"
-ADMIN_SECRET=your_admin_secret
-NEXT_PUBLIC_BASE_URL=http://localhost:3000
-NODE_ENV=development
-```
-
-> Generate `ADMIN_SECRET` yang kuat: `openssl rand -base64 32`
-
-### 3. Setup Database
-
+### 3. Setup Database & Run!
 ```bash
 npx prisma migrate dev
 npx prisma generate
-```
-
-### 4. Jalankan Dev Server
-
-```bash
 npm run dev
 ```
-
-Buka [http://localhost:3000](http://localhost:3000)
-
----
-
-## Deployment (Docker)
-
-### 1. Siapkan `.env` di server
-
-Isi dengan nilai production yang sesungguhnya (DB password, ADMIN_SECRET, domain/IP).
-
-### 2. Build & Jalankan
-
-```bash
-docker compose up -d --build
-```
-
-### 3. Jalankan Migrasi Database
-
-```bash
-docker compose exec app npx prisma migrate deploy
-```
-
-Aplikasi berjalan di port `3000`.
+Sekarang buka [http://localhost:3000](http://localhost:3000) dan *voila!* 🎉
 
 ---
 
-## API Endpoints
+## 🐳 Deployment (Pake Docker)
 
-| Method | Endpoint | Deskripsi | Auth |
-|--------|----------|-----------|------|
-| `GET` | `/api/reviews` | Ambil review yang sudah approved | — |
-| `POST` | `/api/reviews` | Submit review baru | — |
-| `POST` | `/api/upload` | Upload foto review | Admin |
-| `POST` | `/api/admin/login` | Login admin | — |
-| `GET` | `/api/admin/login` | Cek status sesi admin | — |
-| `GET` | `/api/admin/reviews` | Ambil semua review (termasuk pending) | Admin |
+Kalo mau dideploy ke server pake Docker, caranya tinggal:
+1. Atur `.env` di server (pake data produksi).
+2. Jalankan: `docker compose up -d --build`
+3. Jangan lupa migrasi DB: `docker compose exec app npx prisma migrate deploy`
 
 ---
 
-## Admin Dashboard
+## 🔐 Admin Dashboard & API
 
-Akses di `/admin/reviews`. Dilindungi dengan:
-- Cookie sesi `httpOnly`
-- Rate limiting login: maks 5 percobaan / 15 menit
-- Middleware server-side redirect untuk akses tanpa sesi
+Dashboard admin bisa diakses di `/admin/reviews`. Tenang, udah dilindungi:
+- Cookie sesi `httpOnly`.
+- Rate limiting (biar gak kena brute force).
+- Middleware protection.
 
----
-
-## Scripts
-
-```bash
-npm run dev      # development server
-npm run build    # production build
-npm run start    # production server
-npm run lint     # ESLint check
-```
+Untuk API-nya, kita punya endpoint buat ambil/kirim review, upload foto, dan login admin.
 
 ---
 
-## Developer
+## 📜 Shortcuts
 
-**Akhdan** — [@dnhmyy](https://github.com/dnhmyy)
+- `npm run dev` — Mulai ngoding (development server).
+- `npm run build` — Siapin buat produksi.
+- `npm run lint` — Cek kalo ada code yang berantakan.
+
+---
+
+## 👨‍💻 Developer
+
+Dibikin dengan ❤️ oleh **Akhdan** — [@dnhmyy](https://github.com/dnhmyy)
