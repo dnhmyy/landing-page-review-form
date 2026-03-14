@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Star, Send, Loader2, ImagePlus, X, ChevronDown, MapPin, Heart, MessageSquare, Award, Sparkles } from "lucide-react";
+import { Star, Send, Loader2, ImagePlus, X, ChevronDown, Heart, MessageSquare, Award, Sparkles } from "lucide-react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
@@ -145,14 +145,15 @@ export default function ReviewSubmitPage() {
             });
 
             if (!res.ok) {
-                const err = await res.json().catch(() => ({}));
-                setError(err.error || "Gagal mengirim review.");
+                const errorData = await res.json().catch(() => ({}));
+                setError(errorData.error || "Gagal mengirim review.");
                 return;
             }
 
             setDone(true);
             window.scrollTo({ top: 0, behavior: 'smooth' });
-        } catch (err: any) {
+        } catch (error) {
+            console.error("[SUBMIT_REVIEW]", error);
             setError("Terjadi kesalahan. Silakan coba lagi.");
         } finally {
             setSubmitting(false);

@@ -53,7 +53,8 @@ export async function POST(req: NextRequest) {
         }
 
         return NextResponse.json({ error: "Invalid passcode" }, { status: 401 });
-    } catch (error) {
+    } catch (err) {
+        console.error("[LOGIN_ERROR]", err);
         return NextResponse.json({ error: "Server error" }, { status: 500 });
     }
 }

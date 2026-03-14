@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { positions } from "@/lib/jobs";
-import { ChevronRight, Briefcase, CheckCircle2, ClipboardList, Mail, MessageCircle } from "lucide-react";
+import { Briefcase, CheckCircle2, ClipboardList, Mail, MessageCircle } from "lucide-react";
 
 export default function JobDetailPage() {
     const params = useParams();

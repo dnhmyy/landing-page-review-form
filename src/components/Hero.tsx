@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, Leaf, Check } from "lucide-react";
+import { ArrowRight, Leaf } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -63,7 +63,7 @@ export function Hero() {
                         transition={{ duration: 0.65, delay: 0.3, ease: "easeOut" }}
                         className="text-xl text-foreground/65 max-w-lg leading-relaxed mb-12"
                     >
-                        Legenda "Hidden Gem" terlembut yang membuat Gading Serpong rela mengantre.
+                        Legenda &quot;Hidden Gem&quot; terlembut yang membuat Gading Serpong rela mengantre.
                         Roti klasik berisian melimpah, dipanggang fresh from the oven, menggunakan premium ingredients tanpa pengawet (no preservatives added).
                     </motion.p>
 

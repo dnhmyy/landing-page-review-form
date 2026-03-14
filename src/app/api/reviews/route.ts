@@ -63,7 +63,7 @@ export async function GET(req: NextRequest) {
             totalReviews: reviews.length,
             averageRating: parseFloat(averageRating.toFixed(1)),
         });
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error("[REVIEWS_GET]", error);
         return NextResponse.json({
             error: "Failed to load reviews",

@@ -67,7 +67,7 @@ export function About() {
                             — sebuah dedikasi untuk menghidupkan kembali cita rasa roti klasik berkualitas tinggi yang dibuat fresh from the oven dengan premium ingredients.
                         </p>
                         <p className="text-lg text-foreground/65 leading-relaxed mb-12">
-                            Dikenal sebagai "Hidden Gem" yang selalu diramaikan antrean pelanggan setia, kami hanya menggunakan bahan segar pilihan, tanpa pengawet (no preservatives added) dan <span className="font-bold text-primary px-2 py-1 rounded-md">telah tersertifikasi 100% Halal.</span>
+                            Dikenal sebagai &quot;Hidden Gem&quot; yang selalu diramaikan antrean pelanggan setia, kami hanya menggunakan bahan segar pilihan, tanpa pengawet (no preservatives added) dan <span className="font-bold text-primary px-2 py-1 rounded-md">telah tersertifikasi 100% Halal.</span>
                             Setiap roti dipanggang fresh 3 kali sehari untuk memastikan kelembutan maksimal yang tidak akan Anda temukan di tempat lain.
                         </p>
 
