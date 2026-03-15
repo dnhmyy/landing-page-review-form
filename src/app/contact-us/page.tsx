@@ -14,17 +14,38 @@ export default function ContactUsPage() {
     const [subject, setSubject] = useState("Pertanyaan Umum");
     const [message, setMessage] = useState("");
     const [submitting, setSubmitting] = useState(false);
+    const [succeeded, setSucceeded] = useState(false);
+    const [error, setError] = useState("");
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setSubmitting(true);
+        setError("");
 
         try {
-            const mailtoEmail = "akhdan@bakerysolution.co.id";
-            const mailtoSubject = encodeURIComponent(`Contact Form - ${subject}`);
-            const mailtoBody = encodeURIComponent(`Name: ${name}\nEmail: ${email}\nPhone: ${phone}\n\nMessage:\n${message}`);
+            const response = await fetch("https://formspree.io/f/mlgpwjqd", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    name,
+                    email,
+                    phone,
+                    subject,
+                    message,
+                }),
+            });
 
-            window.open(`mailto:${mailtoEmail}?subject=${mailtoSubject}&body=${mailtoBody}`, "_blank");
+            if (response.ok) {
+                setSucceeded(true);
+                setName("");
+                setEmail("");
+                setPhone("");
+                setMessage("");
+            } else {
+                setError("Gagal mengirim pesan. Silakan coba lagi.");
+            }
+        } catch (err) {
+            setError("Terjadi kesalahan koneksi.");
         } finally {
             setSubmitting(false);
         }
@@ -160,81 +181,107 @@ export default function ContactUsPage() {
                                 className="bg-white rounded-[32px] p-8 md:p-10 shadow-xl shadow-primary/5 border border-primary/10"
                             >
                                 <h2 className="text-2xl font-black text-foreground mb-8 text-center lg:text-left">Kirim Pesan</h2>
-                                <form onSubmit={handleSubmit} className="space-y-6">
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                        <div className="space-y-2">
-                                            <label className="text-sm font-bold text-foreground/70 ml-1">Nama Lengkap</label>
-                                            <input
-                                                type="text"
-                                                required
-                                                value={name}
-                                                onChange={(e) => setName(e.target.value)}
-                                                placeholder="Masukkan Nama Anda"
-                                                className="w-full px-5 py-4 rounded-2xl bg-muted/30 border border-transparent focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/5 outline-none transition-all text-foreground font-medium"
-                                            />
-                                        </div>
-                                        <div className="space-y-2">
-                                            <label className="text-sm font-bold text-foreground/70 ml-1">Nomor WhatsApp</label>
-                                            <input
-                                                type="tel"
-                                                required
-                                                value={phone}
-                                                onChange={(e) => setPhone(e.target.value)}
-                                                placeholder="089812345678"
-                                                className="w-full px-5 py-4 rounded-2xl bg-muted/30 border border-transparent focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/5 outline-none transition-all text-foreground font-medium"
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <div className="space-y-2">
-                                        <label className="text-sm font-bold text-foreground/70 ml-1">Alamat Email</label>
-                                        <input
-                                            type="email"
-                                            required
-                                            value={email}
-                                            onChange={(e) => setEmail(e.target.value)}
-                                            placeholder="alamat@email.com"
-                                            className="w-full px-5 py-4 rounded-2xl bg-muted/30 border border-transparent focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/5 outline-none transition-all text-foreground font-medium"
-                                        />
-                                    </div>
-
-                                    <div className="space-y-2">
-                                        <label className="text-sm font-bold text-foreground/70 ml-1">Subjek Pesan</label>
-                                        <div className="relative">
-                                            <select
-                                                required
-                                                value={subject}
-                                                onChange={(e) => setSubject(e.target.value)}
-                                                className="w-full px-5 py-4 rounded-2xl bg-muted/30 border border-transparent focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/5 outline-none transition-all text-foreground font-medium appearance-none select-custom"
-                                            >
-                                                <option value="Pertanyaan Umum">Pertanyaan Umum</option>
-                                                <option value="Pesanan Besar / Event">Pesanan Besar / Event</option>
-                                            </select>
-                                            <ChevronDown className="absolute right-5 top-1/2 -translate-y-1/2 text-foreground/30 w-5 h-5 pointer-events-none" />
-                                        </div>
-                                    </div>
-
-                                    <div className="space-y-2">
-                                        <label className="text-sm font-bold text-foreground/70 ml-1">Pesan Anda</label>
-                                        <textarea
-                                            required
-                                            value={message}
-                                            onChange={(e) => setMessage(e.target.value)}
-                                            placeholder="Tuliskan detail pertanyaan atau masukan Anda di sini"
-                                            rows={5}
-                                            className="w-full px-5 py-4 rounded-2xl bg-muted/30 border border-transparent focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/5 outline-none transition-all text-foreground font-medium resize-none shadow-inner"
-                                        />
-                                    </div>
-
-                                    <button
-                                        type="submit"
-                                        disabled={submitting}
-                                        className="w-full h-16 rounded-2xl bg-primary text-white font-black text-lg shadow-xl shadow-primary/20 hover:bg-primary/90 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-3 group"
+                                {succeeded ? (
+                                    <motion.div
+                                        initial={{ opacity: 0, scale: 0.9 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        className="text-center py-12"
                                     >
-                                        {submitting ? <Loader2 className="w-6 h-6 animate-spin" /> : <Send className="w-6 h-6 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />}
-                                        Kirim Sekarang
-                                    </button>
-                                </form>
+                                        <div className="w-20 h-20 bg-green-50 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                                            <BadgeCheck size={40} />
+                                        </div>
+                                        <h3 className="text-2xl font-black text-foreground mb-2">Pesan Terkirim!</h3>
+                                        <p className="text-foreground/50 mb-8">Terima kasih telah menghubungi kami. Tim kami akan segera merespon pesan Anda.</p>
+                                        <button
+                                            onClick={() => setSucceeded(false)}
+                                            className="text-primary font-bold hover:underline"
+                                        >
+                                            Kirim pesan lain
+                                        </button>
+                                    </motion.div>
+                                ) : (
+                                    <form onSubmit={handleSubmit} className="space-y-6">
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                            <div className="space-y-2">
+                                                <label className="text-sm font-bold text-foreground/70 ml-1">Nama Lengkap</label>
+                                                <input
+                                                    type="text"
+                                                    required
+                                                    value={name}
+                                                    onChange={(e) => setName(e.target.value)}
+                                                    placeholder="Masukkan Nama Anda"
+                                                    className="w-full px-5 py-4 rounded-2xl bg-muted/30 border border-transparent focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/5 outline-none transition-all text-foreground font-medium"
+                                                />
+                                            </div>
+                                            <div className="space-y-2">
+                                                <label className="text-sm font-bold text-foreground/70 ml-1">Nomor WhatsApp</label>
+                                                <input
+                                                    type="tel"
+                                                    required
+                                                    value={phone}
+                                                    onChange={(e) => setPhone(e.target.value)}
+                                                    placeholder="089812345678"
+                                                    className="w-full px-5 py-4 rounded-2xl bg-muted/30 border border-transparent focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/5 outline-none transition-all text-foreground font-medium"
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div className="space-y-2">
+                                            <label className="text-sm font-bold text-foreground/70 ml-1">Alamat Email</label>
+                                            <input
+                                                type="email"
+                                                required
+                                                value={email}
+                                                onChange={(e) => setEmail(e.target.value)}
+                                                placeholder="alamat@email.com"
+                                                className="w-full px-5 py-4 rounded-2xl bg-muted/30 border border-transparent focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/5 outline-none transition-all text-foreground font-medium"
+                                            />
+                                        </div>
+
+                                        <div className="space-y-2">
+                                            <label className="text-sm font-bold text-foreground/70 ml-1">Subjek Pesan</label>
+                                            <div className="relative">
+                                                <select
+                                                    required
+                                                    value={subject}
+                                                    onChange={(e) => setSubject(e.target.value)}
+                                                    className="w-full px-5 py-4 rounded-2xl bg-muted/30 border border-transparent focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/5 outline-none transition-all text-foreground font-medium appearance-none select-custom"
+                                                >
+                                                    <option value="Pertanyaan Umum">Pertanyaan Umum</option>
+                                                    <option value="Pesanan Besar / Event">Pesanan Besar / Event</option>
+                                                </select>
+                                                <ChevronDown className="absolute right-5 top-1/2 -translate-y-1/2 text-foreground/30 w-5 h-5 pointer-events-none" />
+                                            </div>
+                                        </div>
+
+                                        <div className="space-y-2">
+                                            <label className="text-sm font-bold text-foreground/70 ml-1">Pesan Anda</label>
+                                            <textarea
+                                                required
+                                                value={message}
+                                                onChange={(e) => setMessage(e.target.value)}
+                                                placeholder="Tuliskan detail pertanyaan atau masukan Anda di sini"
+                                                rows={5}
+                                                className="w-full px-5 py-4 rounded-2xl bg-muted/30 border border-transparent focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/5 outline-none transition-all text-foreground font-medium resize-none shadow-inner"
+                                            />
+                                        </div>
+
+                                        {error && (
+                                            <p className="text-sm font-bold text-red-500 bg-red-50 p-3 rounded-xl border border-red-100 italic">
+                                                {error}
+                                            </p>
+                                        )}
+
+                                        <button
+                                            type="submit"
+                                            disabled={submitting}
+                                            className="w-full h-16 rounded-2xl bg-primary text-white font-black text-lg shadow-xl shadow-primary/20 hover:bg-primary/90 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-3 group"
+                                        >
+                                            {submitting ? <Loader2 className="w-6 h-6 animate-spin" /> : <Send className="w-6 h-6 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />}
+                                            Kirim Sekarang
+                                        </button>
+                                    </form>
+                                )}
                             </motion.div>
                         </div>
                     </div>
