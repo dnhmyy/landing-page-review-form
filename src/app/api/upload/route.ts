@@ -10,6 +10,7 @@ const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
 const MAX_SIZE_BYTES = 10 * 1024 * 1024; // Increase to 10MB for raw, we compress later
 
 export async function POST(req: NextRequest) {
+    console.log("[UPLOAD_START] Processing new upload request...");
     try {
         const formData = await req.formData();
         const file = formData.get("photo") as File | null;

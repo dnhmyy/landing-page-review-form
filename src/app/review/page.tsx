@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { compressImage } from "@/lib/image-utils";
 
 // ─── Branches ─────────────────────────────────────────────────────────────
 import { branches } from "@/lib/branches";
@@ -123,12 +124,16 @@ export default function ReviewSubmitPage() {
         try {
             let photoUrl: string | undefined;
             if (photo) {
+                const compressedBlob = await compressImage(photo);
                 const fd = new FormData();
-                fd.append("photo", photo);
+                fd.append("photo", compressedBlob, "photo.jpg");
                 const upRes = await fetch("/api/upload", { method: "POST", body: fd });
                 if (upRes.ok) {
                     const upData = await upRes.json();
                     photoUrl = upData.url;
+                } else {
+                    const upErr = await upRes.json().catch(() => ({}));
+                    throw new Error(upErr.error || "Gagal mengunggah foto.");
                 }
             }
 
