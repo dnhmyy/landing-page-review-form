@@ -41,7 +41,7 @@ export async function GET(req: NextRequest) {
                 ? { rating: "desc" as const }
                 : { createdAt: "desc" as const };
         
-        const { prisma } = await import("@/lib/prisma");
+        const { default: prisma } = await import("@/lib/prisma");
         const reviews = await prisma.review.findMany({
             where: { isApproved: true },
             orderBy,
@@ -95,7 +95,7 @@ export async function POST(req: NextRequest) {
             );
         }
 
-        const { prisma } = await import("@/lib/prisma");
+        const { default: prisma } = await import("@/lib/prisma");
         const review = await prisma.review.create({
             data: {
                 name: validated.data.name,

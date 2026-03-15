@@ -46,7 +46,7 @@ export async function GET(req: NextRequest) {
                     ? { rating: "asc" }
                     : { createdAt: "desc" };
 
-        const { prisma } = await import("@/lib/prisma");
+        const { default: prisma } = await import("@/lib/prisma");
         const reviews = await prisma.review.findMany({ where, orderBy });
         return NextResponse.json(reviews);
     } catch (error) {
