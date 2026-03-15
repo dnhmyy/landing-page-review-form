@@ -9,12 +9,6 @@ const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
 const MAX_SIZE_BYTES = 5 * 1024 * 1024; // 5 MB
 
 export async function POST(req: NextRequest) {
-    // Auth check — only admin can upload photos
-    const session = req.cookies.get("rk_admin_session");
-    if (session?.value !== "authorized") {
-        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
     try {
         const formData = await req.formData();
         const file = formData.get("photo") as File | null;
