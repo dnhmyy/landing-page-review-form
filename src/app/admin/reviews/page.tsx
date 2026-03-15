@@ -16,6 +16,8 @@ import {
     Loader2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
+
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 interface Review {
@@ -332,11 +334,15 @@ export default function AdminReviewsPage() {
                                     </p>
                                     {review.photoUrl && (
                                         <a href={review.photoUrl} target="_blank" rel="noopener noreferrer" className="inline-block">
-                                            <img
-                                                src={review.photoUrl}
-                                                alt="Foto review"
-                                                className="w-28 h-28 rounded-xl object-cover border border-primary/10 hover:scale-105 transition-transform cursor-zoom-in"
-                                            />
+                                            <div className="relative w-28 h-28 rounded-xl overflow-hidden border border-primary/10 hover:scale-105 transition-transform cursor-zoom-in">
+                                                <Image
+                                                    src={review.photoUrl}
+                                                    alt="Foto review"
+                                                    fill
+                                                    className="object-cover"
+                                                    loading="lazy"
+                                                />
+                                            </div>
                                         </a>
                                     )}
                                 </div>

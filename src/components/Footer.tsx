@@ -29,6 +29,7 @@ export function Footer() {
                                     className="object-contain"
                                     sizes="(max-width: 768px) 100px, 120px"
                                     quality={85}
+                                    loading="lazy"
                                 />
                             </div>
                             <span className="font-black text-xl tracking-tight leading-tight">

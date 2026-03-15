@@ -73,6 +73,7 @@ export default function LocationPage() {
                                             className="object-contain group-hover:scale-110 transition-transform duration-700"
                                             quality={100}
                                             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 600px"
+                                            loading="lazy"
                                         />
                                     </div>
                                     <div className="absolute top-2 right-2 md:top-4 md:right-4">
