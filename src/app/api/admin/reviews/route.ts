@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import prisma from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -9,7 +8,7 @@ export const revalidate = 0;
  * Internal review list with filtering and sorting.
  */
 export async function GET(req: NextRequest) {
-    if (process.env.NEXT_PHASE === "phase-production-build") {
+    if (process.env.NEXT_PHASE === "phase-production-build" || process.env.NODE_ENV === "production" && !process.env.DATABASE_URL) {
         return NextResponse.json([]);
     }
 
@@ -47,6 +46,7 @@ export async function GET(req: NextRequest) {
                     ? { rating: "asc" }
                     : { createdAt: "desc" };
 
+        const { prisma } = await import("@/lib/prisma");
         const reviews = await prisma.review.findMany({ where, orderBy });
         return NextResponse.json(reviews);
     } catch (error) {

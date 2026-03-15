@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import prisma from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -32,13 +31,17 @@ function checkRateLimit(ip: string): boolean {
 }
 
 export async function GET(req: NextRequest) {
+    if (process.env.NEXT_PHASE === "phase-production-build" || process.env.NODE_ENV === "production" && !process.env.DATABASE_URL) {
+        return NextResponse.json({ reviews: [], totalReviews: 0, averageRating: 0 });
+    }
     try {
         const sort = req.nextUrl.searchParams.get("sort");
         const orderBy =
             sort === "highest"
                 ? { rating: "desc" as const }
                 : { createdAt: "desc" as const };
-
+        
+        const { prisma } = await import("@/lib/prisma");
         const reviews = await prisma.review.findMany({
             where: { isApproved: true },
             orderBy,
@@ -92,6 +95,7 @@ export async function POST(req: NextRequest) {
             );
         }
 
+        const { prisma } = await import("@/lib/prisma");
         const review = await prisma.review.create({
             data: {
                 name: validated.data.name,
